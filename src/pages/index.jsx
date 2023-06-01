@@ -49,22 +49,7 @@ export default function Index(){
                     </Card>
                 </Col>
             </Row>
-            <div className="">
-                <Row className='mt-4'>
-                    <Col>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title>
-                                    Reimbursement Table
-                                </Card.Title>
-                                <Table>
-                                    
-                                </Table>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </div>
+            <div className=""></div>
         </>
     )
 }
