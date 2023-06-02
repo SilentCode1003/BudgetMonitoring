@@ -7,6 +7,7 @@ export default function Index(){
     const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
     const currentMonthReimburseData = [
         { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+        { ID: '1002', 'Request Date': '02/06/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something Else', Status: 'Inactive', Actions: 'Something' },
     ];
 
     const currentMonthBudget = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
@@ -58,7 +59,7 @@ export default function Index(){
                 <DynamicTable title={"Current Month Budget Request"} columns={currentMonthBudget} data={currentMonthBudgetData} />
             </div>
             <div className="">
-                <DynamicTable title={"Current Month Reimburse"} columns={currentMonthReimburse} data={currentMonthBudgetData} />
+                <DynamicTable title={"Current Month Reimburse"} columns={currentMonthReimburse} data={currentMonthReimburseData} />
             </div>
         </>
     )

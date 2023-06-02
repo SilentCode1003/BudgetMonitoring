@@ -42,9 +42,7 @@ body {
     margin-bottom: 20px;
     padding-bottom: 20px;
   }
-  .responsive-table{
-    margin-top: 15rem !important;
-  }
+
 }
 
 .login-container{
@@ -289,6 +287,35 @@ th, td{
   width: 100% !important;
 }
 
+.table-container {
+  max-height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.table-container thead th {
+  position: sticky;
+  top: 0;
+  background-color: var(--bms-card-clr);
+}
+
+/*Pagination*/
+.pagination{
+  margin-bottom: 0 !important;
+}
+
+.page-link{
+  color: var(--clr-btn) !important;
+  width: 3rem;
+  text-align: center;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff !important;
+  background-color: var(--clr-btn) !important;
+  border-color: var(--clr-btn) !important;
+}
 /*Dashboard*/
 
 .dashboard-text{
@@ -309,10 +336,6 @@ th, td{
     margin-right: 0;
     flex-direction: column !important;
     display: flex !important;
-  }
-
-  .reimbursement-table{
-    margin-top: 12.5rem !important;
   }
 
   .dashboard-card-container{

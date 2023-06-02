@@ -10,6 +10,19 @@ const Request = () => {
   const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
   const tableData = [
     { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1002', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1003', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1004', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1005', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1006', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1007', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1008', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1009', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1010', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1011', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1012', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1013', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    { ID: '1014', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
   ];
 
   const [storeDropdownValue, setStoreDropdownValue] = useState('');
@@ -49,7 +62,6 @@ const Request = () => {
   return (
     <>
       <Header />
-      <Container>
         <Row>
           <Col className="mt-4">
             <Card>
@@ -100,7 +112,6 @@ const Request = () => {
             handleClearRequests={handleClearRequestsClick}
           />
         </Row>
-      </Container>
         <div className='reimbursement-table'>
           <DynamicTable title={"Reimbursement Table"} columns={tableColumns} data={tableData} />
         </div>
