@@ -4,8 +4,13 @@ import { CDBDataTable } from "cdbreact";
 import DynamicTable from "../components/DynamicTable";
 
 export default function Index(){
-    const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
-    const tableData = [
+    const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
+    const currentMonthReimburseData = [
+        { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+    ];
+
+    const currentMonthBudget = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
+    const currentMonthBudgetData = [
         { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
     ];
     return(
@@ -49,7 +54,12 @@ export default function Index(){
                     </Card>
                 </Col>
             </Row>
-            <div className=""></div>
+            <div className="">
+                <DynamicTable title={"Current Month Budget Request"} columns={currentMonthBudget} data={currentMonthBudgetData} />
+            </div>
+            <div className="">
+                <DynamicTable title={"Current Month Reimburse"} columns={currentMonthReimburse} data={currentMonthBudgetData} />
+            </div>
         </>
     )
 }

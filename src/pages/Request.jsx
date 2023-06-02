@@ -102,7 +102,7 @@ const Request = () => {
         </Row>
       </Container>
         <div className='reimbursement-table'>
-          <DynamicTable columns={tableColumns} data={tableData} />
+          <DynamicTable title={"Reimbursement Table"} columns={tableColumns} data={tableData} />
         </div>
     </>
   );

@@ -175,9 +175,9 @@ input {
   margin: auto !important;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
   color: white;
-  opacity: .5; /* Firefox */
+  opacity: .5; 
 }
 
 .navbar{
