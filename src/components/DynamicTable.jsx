@@ -45,7 +45,7 @@ const DynamicTable = ({ title, columns, data }) => {
 
   return (
     <>
-      <Row className='mt-4'>
+      <Row className='mt-3'>
         <Col>
           <Card>
             <Card.Body>
@@ -65,24 +65,26 @@ const DynamicTable = ({ title, columns, data }) => {
                 </Col>
               </Row>
               <div className='table-container'>
-                <Table>
-                  <thead>
-                    <tr>
-                      {columns.map((column, index) => (
-                        <th key={index}>{formatHeader(column)}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentData.map((row, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {columns.map((column, columnIndex) => (
-                          <td key={columnIndex}>{row[column]}</td>
+                <div className='table-scroll-container'>
+                  <Table>
+                    <thead>
+                      <tr>
+                        {columns.map((column, index) => (
+                          <th key={index}>{formatHeader(column)}</th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                    </thead>
+                    <tbody>
+                      {currentData.map((row, rowIndex) => (
+                        <tr key={rowIndex}>
+                          {columns.map((column, columnIndex) => (
+                            <td key={columnIndex}>{row[column]}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
               <div className='pagination-container mt-3 d-flex justify-content-end'>
                 <Pagination>{paginationItems}</Pagination>

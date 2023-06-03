@@ -6,6 +6,7 @@ import RequestTable from '../components/request-table';
 import { handleAddRequest, handleRemoveRequest, handleClearRequests, validateNumberInput } from '../components/RequestFunctions';
 import DynamicTable from '../components/DynamicTable';
 
+
 const Request = () => {
   const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
   const tableData = [

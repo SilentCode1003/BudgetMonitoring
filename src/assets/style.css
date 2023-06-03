@@ -71,14 +71,7 @@ body {
   width: 50%;
   border-radius: .25rem 0px 0px .25rem;
 }
-@media (max-width: 767px) {
-  .left {
-    height: 100%;
-    left: 20px;
-    width: calc(100% - 40px);
-    max-height: 270px;
-  }
-}
+
 .login {
   font-size: 50px;
   font-weight: 900;
@@ -281,6 +274,7 @@ th, td{
 
 th, td{
   text-align: center !important;
+  white-space: nowrap;
 }
 
 .reimburse-table{
@@ -290,15 +284,20 @@ th, td{
 .table-container {
   max-height: 280px;
   overflow-y: auto;
-  overflow-x: hidden;
+}
+
+.table-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .table-container thead th {
   position: sticky;
-  top: 0;
+    top: 0;
   background-color: var(--bms-card-clr);
 }
-
+  
 /*Pagination*/
 .pagination{
   margin-bottom: 0 !important;
@@ -330,6 +329,10 @@ th, td{
   height: 200px;
 }
 
+.hidden-logo{
+  display: none;
+}
+
 @media (max-width: 767px) {
   .dashboard-container {
     margin-left: 0;
@@ -343,4 +346,35 @@ th, td{
     text-align: center !important;
   }
 
+  .left {
+    height: 100%;
+    left: 20px;
+    width: calc(100% - 40px);
+    max-height: 270px;
+  }
+}
+
+@media (max-width: 470px) {
+  body{
+    font-size: 0.75rem !important;
+    padding: 1rem !important;
+  }
+  .card-title{
+    font-size: 1rem !important;
+  }
+  .navbar-brand{
+    display: none !important;
+  }
+  ::placeholder{
+    font-size: 1rem !important;
+  }
+  .btn{
+    font-size: .75rem !important;
+  }
+  .dropdown-item{
+    font-size: .75rem !important;
+  }
+  .hidden-logo{
+    display: block;
+  }
 }

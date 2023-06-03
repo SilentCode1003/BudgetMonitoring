@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import logo from '../assets/img/5L-logo-white.png';
 import '../assets/style.css'
 
 function Header() {
@@ -10,10 +11,18 @@ function Header() {
     <>
     <Navbar className='bms-navbar-bg' expand="lg" variant='dark'>
       <Container fluid>
+        <div className="hidden-logo">
+          <img
+              alt=""
+              src={logo}
+              height="35"
+              className="d-inline-block align-top"
+          />
+        </div>
         <Navbar.Brand href="\Index">
           <img
               alt=""
-              src="src\assets\img\5L-logo-white.png"
+              src={logo}
               height="35"
               className="d-inline-block align-top"
           />
@@ -48,7 +57,7 @@ function Header() {
             <Nav className='flex-grow-1 user-profile hidden-mobile' href="/Index">(Username)</Nav>
             <img
                   alt=""
-                  src="src\assets\img\undraw_profile.svg"
+                  src={logo}
                   height="35"
                   className="d-inline-block align-top"
               />
