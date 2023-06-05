@@ -1,29 +1,118 @@
+import React, { useState, useEffect } from 'react';
+import Header from '../components/Header';
+import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
+import Dropdown from '../components/dropdown';
+import ReimburseTable from '../components/ReimburseTable';
+import { validateNumberInput } from '../components/RequestFunctions';
+import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
+import DynamicTable from '../components/DynamicTable';
 
-import Footer from "../components/footer";
-import React, { useState } from "react";
+const Reimbursement = () => {
+const tableColumns = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status', 'Actions'];
+  const tableData = [
+    { ID: '1001', Date: '05/23/2023' ,'Request ID': '203932', 'Request By': 'Ralph Lauren Santos', 'Request Date': '05/06/2023' , Details:'Something', Status: 'Waiting', Actions: 'Something' },
+  ];
 
-export default function Reimbursement(){
-    const [val,setVal]=useState('')
-    const data=[
-        "Java",
-        "JavaScript",
-        "React js",
-        "Python",
-        "C",
-        "C++",
-    ]
-    return(
-        <div className="dropdown">
-            <input list="data" onChange={(e)=>setVal(e.target.value)} placeholder="Search" />
-            <datalist id="data">
-                {/* <option>One</option>
-                <option>Two</option>
-                <option>Three</option>
-                <option>Four</option> */}
-                {data.map((op)=><option>{op}</option>)}
-            </datalist>
+  const [locationDropdownValue, setLocationDropdownValue] = useState('');
+  const [originDropdownValue, setOriginDropdownValue] = useState('');
+  const [destinationDropdownValue, setDestinationDropdownValue] = useState('');
+  const [modeTransactionDropdownValue, setModeTransactionDropdownValue] = useState('');
+  const [reimburse, setReimburse] = useState([]);
 
-            <h1>{val}</h1>
-        </div>
+  const locationDropdown = ['Pacita', 'Sta. Rosa', 'San Pedro', 'Calamba', 'Manila'];
+  const originDropdown = ['Manila', 'Cavite', 'Batangas', 'Quezon'];
+  const destinationDropdown = ['Lucena', 'Buenavista', 'Gumaca', 'Sta. Rosa'];
+  const modeTransactionDropdown = ['Bus', 'Jeep', 'Van'];
+
+  const handleAddReimbursementClick = () => {
+    handleAddReimbursement(
+        locationDropdownValue,
+        originDropdownValue,
+        destinationDropdownValue,
+        modeTransactionDropdownValue,
+        reimburse,
+        setReimburse,
+        setLocationDropdownValue,
+        setOriginDropdownValue,
+        setDestinationDropdownValue,
+        setModeTransactionDropdownValue,
     );
-}
+  };
+
+  useEffect(() => {
+    validateNumberInput();
+  }, []);
+
+  const handleRemoveReimburseClick = (index) => {
+    console.log('Remove Succesful');
+    handleRemoveReimburse(index, reimburse, setReimburse);
+  };
+
+  const handleClearReimburseClick = () => {
+    console.log('Clear Succesful');
+    handleClearReimburse(setReimburse);
+  };
+
+  return (
+    <>
+      <Header />
+        <Row>
+          <Col  md={5} className="mt-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>Reimbursement</Card.Title>
+                <Dropdown
+                  options={locationDropdown}
+                  defaultOption="-- Select Location --"
+                  value={locationDropdownValue}
+                  setValue={setLocationDropdownValue}
+                />
+                <Dropdown
+                  options={originDropdown}
+                  defaultOption="-- Select Origin --"
+                  value={originDropdownValue}
+                  setValue={setOriginDropdownValue}
+                />
+                <Dropdown
+                  options={destinationDropdown}
+                  defaultOption="-- Select Destination --"
+                  value={destinationDropdownValue}
+                  setValue={setDestinationDropdownValue}
+                />
+                <Dropdown
+                  options={modeTransactionDropdown}
+                  defaultOption="-- Select Mode of Transaction --"
+                  value={modeTransactionDropdownValue}
+                  setValue={setModeTransactionDropdownValue}
+                />
+                <Form className="justify-content-center mt-2">
+                  <Form.Group>
+                    <Form.Control className='number-validator' id="#" placeholder="Enter Price" />
+                  </Form.Group>
+                </Form>
+                <div className="button-container d-flex justify-content-end mt-2">
+                  <Button
+                    variant="outline-danger"
+                    onClick={handleAddReimbursementClick}
+                  >
+                    ADD
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+          <ReimburseTable
+            reimburse={reimburse}
+            handleRemoveReimburse={handleRemoveReimburseClick}
+            handleClearReimburse={handleClearReimburseClick}
+        />
+
+        </Row>
+        <div className='reimbursement-table'>
+          <DynamicTable title={"Reimbursement Table"} columns={tableColumns} data={tableData} />
+        </div>
+    </>
+  );
+};
+
+export default Reimbursement;

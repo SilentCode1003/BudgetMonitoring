@@ -1,10 +1,10 @@
 :root {
   --card-r-bg: #E0DFD5;
-  --bg-clr: #841B2A;
+  --bg-clr: #6d1825;
   --clr2: #313638;
   --clr3: #d44d61;
   --clr4: #F7322F;
-  --bms-card-clr: #a73244;
+  --bms-card-clr: #992d3e;
   --clr-btn: #f53d58;
   --clr-body-bg: #2c2e31;
 
@@ -21,7 +21,7 @@ body {
   background-color: var(--clr-sunset-theme-bg) !important;
 }
 .login-page {
-  background: var(--clr-sunset-theme-container);
+  background: var(--bg-clr);
   display: flex;
   flex-direction: column;
   height: calc(100% - 40px);
@@ -331,6 +331,10 @@ th, td{
 
 .hidden-logo{
   display: none;
+}
+
+.Reimburse-table{
+  height: 344px;
 }
 
 @media (max-width: 767px) {
