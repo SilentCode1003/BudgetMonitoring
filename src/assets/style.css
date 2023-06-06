@@ -197,9 +197,10 @@ input {
 }
 
 .user-profile{
-  margin-right: .5rem;
+  margin-left: .2rem;
+  margin-right: .2rem;
   color: var(--card-r-bg);
-  margin-top: .5rem;
+  margin-top: .75rem;
 }
 
 .request-page{
@@ -335,6 +336,16 @@ th, td{
 
 .Reimburse-table{
   height: 344px;
+}
+
+.user-profile-picture {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.header-btn{
+  height: 90% !important;
 }
 
 @media (max-width: 767px) {

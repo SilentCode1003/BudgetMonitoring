@@ -46,21 +46,22 @@ function Header() {
           </Nav>
           
           <Form className="d-flex">
-            <div className="input-group">
+            <div className="input-group mt-1">
                 <input className="form-control border-end-0 border" type="search" placeholder='Search' id="example-search-input"/>
                 <span className="input-group-append">
-                    <button className="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5 btn-border" type="button">
+                    <button className="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5 btn-border header-btn" type="button">
                         <i className="fa fa-search"></i>
                     </button>
                 </span>
             </div>
-            <Nav className='flex-grow-1 user-profile hidden-mobile' href="/Index">(Username)</Nav>
-            <img
-                  alt=""
-                  src={logo}
-                  height="35"
-                  className="d-inline-block align-top"
-              />
+            <div className="d-flex">
+              <Nav className='flex-grow-1 user-profile hidden-mobile' href="/Index">(Username)</Nav>
+              <NavDropdown title={<img alt="user-profile" src={logo} height={35} className='d-inline-block align-top user-profile-picture user-dropdown'/>} id="user-profile-dropdown">
+                <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
+              </NavDropdown>
+            </div>
           </Form>
         </Navbar.Collapse>
 
