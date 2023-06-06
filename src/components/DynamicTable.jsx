@@ -98,7 +98,8 @@ const DynamicTable = ({ title, columns, data }) => {
 };
 
 const formatHeader = (header) => {
-  return header.replace(/\s+/g, ' ');
+  const formattedHeader = header.replace(/_/g, ' ');
+  return formattedHeader;
 };
 
 export default DynamicTable;

@@ -6,12 +6,11 @@ import ReimburseTable from '../components/ReimburseTable';
 import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
 import DynamicTable from '../components/DynamicTable';
+import Data from '../MOCK_DATA2.json';
 
 const Reimbursement = () => {
-const tableColumns = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status', 'Actions'];
-  const tableData = [
-    { ID: '1001', Date: '05/23/2023' ,'Request ID': '203932', 'Request By': 'Ralph Lauren Santos', 'Request Date': '05/06/2023' , Details:'Something', Status: 'Waiting', Actions: 'Something' },
-  ];
+  const tableColumns = ['ID', 'Date', 'Request_ID', 'Request_By', 'Request_Date', 'Details', 'Status', 'Actions'];
+  const tableData = Data;
 
   const [locationDropdownValue, setLocationDropdownValue] = useState('');
   const [originDropdownValue, setOriginDropdownValue] = useState('');
