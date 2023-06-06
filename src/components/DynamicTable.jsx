@@ -66,7 +66,7 @@ const DynamicTable = ({ title, columns, data }) => {
               </Row>
               <div className='table-container'>
                 <div className='table-scroll-container'>
-                  <Table>
+                  <Table striped>
                     <thead>
                       <tr>
                         {columns.map((column, index) => (

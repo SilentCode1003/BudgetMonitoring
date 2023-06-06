@@ -17,7 +17,7 @@
 
 body {
   margin: 0;
-  padding: 1.5rem;
+  padding: .8rem;
   background-color: var(--clr-sunset-theme-bg) !important;
 }
 .login-page {
@@ -269,7 +269,7 @@ th, td{
 .table-wrapper {
   max-height: 255px;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 th, td{
