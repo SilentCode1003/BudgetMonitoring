@@ -1,5 +1,4 @@
-/* CustomDropdown.css */
 .scrollable {
-  max-height: 300px; /* Adjust the max-height as needed */
+  max-height: 300px;
   overflow-y: auto;
 }

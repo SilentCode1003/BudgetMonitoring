@@ -6,7 +6,7 @@ export const getClientName = async () => {
   return res.data
 }
 
-export const userGetClientName = () => {
+export const useGetClientName = () => {
   return useQuery({
     queryKey: ['client'],
     queryFn: getClientName,

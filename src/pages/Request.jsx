@@ -6,17 +6,14 @@ import RequestTable from '../components/Request-table';
 import { handleAddRequest, handleRemoveRequest, handleClearRequests, validateNumberInput } from '../components/RequestFunctions';
 import DynamicTable from '../components/DynamicTable';
 import { useGetConcern } from '../API/request/getConcern';
-import { userGetClientName } from '../API/request/getStoreName';
+import { useGetClientName } from '../API/request/getStoreName';
+import { useGetIssue } from '../API/request/getIssue';
 
 const Request = () => {
   const concerns = useGetConcern();
   const concernNames = concerns.data?.data.map((item) => item.concernname) || [];
-  console.log(concernNames);
-
-  const client = userGetClientName();
-  console.log(client.data);
+  const client = useGetClientName();
   const clientStoreName = client.data?.data.map((item) => item.fullname) || [];
-  console.log(clientStoreName);
   
   const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
   const tableData = [
@@ -41,9 +38,7 @@ const Request = () => {
   const [concernDropdownValue, setConcernDropdownValue] = useState('');
   const [requests, setRequests] = useState([]);
 
-  const storeDropdown = ['Pacita', 'Sta. Rosa', 'San Pedro', 'Calamba', 'Manila'];
   const issueDropdown = ['POS', 'CLIQ', 'PC', 'Cable'];
-  const concernDropdown = ['No Data', 'Faulty HDD', 'No Display', 'Hardware'];
 
   const handleAddRequestClick = () => {
     handleAddRequest(

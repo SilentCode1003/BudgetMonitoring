@@ -35,8 +35,12 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
     setIsOpen(!isOpen);
   };
 
-  const shouldScroll = filteredOptions.length >= 10; // Check if there are 10 or more options
+  const handleOptionClick = (option) => {
+    setValue(option);
+    setIsOpen(false);
+  };
 
+  const shouldScroll = filteredOptions.length >= 10; 
   return (
     <div className="dropdown mt-2" ref={dropdownRef}>
       <button
@@ -61,7 +65,7 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
                 key={index}
                 className="dropdown-item"
                 type="button"
-                onClick={() => setValue(option)}
+                onClick={() => handleOptionClick(option)}
               >
                 {option}
               </button>
