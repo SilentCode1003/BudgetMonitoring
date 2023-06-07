@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
-import Dropdown from '../components/dropdown';
-import RequestTable from '../components/request-table';
+import Dropdown from '../components/Dropdown';
+import RequestTable from '../components/Request-table';
 import { handleAddRequest, handleRemoveRequest, handleClearRequests, validateNumberInput } from '../components/RequestFunctions';
 import DynamicTable from '../components/DynamicTable';
-
+import { useGetConcern } from '../API/request/getConcern';
+import { userGetClientName } from '../API/request/getStoreName';
 
 const Request = () => {
+  const concerns = useGetConcern();
+  const concernNames = concerns.data?.data.map((item) => item.concernname) || [];
+  console.log(concernNames);
+
+  const client = userGetClientName();
+  console.log(client.data);
+  const clientStoreName = client.data?.data.map((item) => item.fullname) || [];
+  console.log(clientStoreName);
+  
   const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
   const tableData = [
     { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
@@ -78,23 +88,31 @@ const Request = () => {
             <Card className="mt-2">
               <Card.Body>
                 <Card.Title>Store</Card.Title>
-                <Dropdown
-                  options={storeDropdown}
+                {clientStoreName.length > 0 ?(
+                  <Dropdown
+                  options={clientStoreName}
                   defaultOption="--- Select Store Name ---"
                   value={storeDropdownValue}
                   setValue={setStoreDropdownValue}
                 />
+                ):(
+                  <div className="no-data"></div>
+                )}
+                {concernNames.length > 0 ? (
+                  <Dropdown
+                    options={concernNames}
+                    defaultOption="--- Select Concern ---"
+                    value={concernDropdownValue}
+                    setValue={setConcernDropdownValue}
+                  />
+                ) : (
+                  <div>No concerns available</div>
+                )}
                 <Dropdown
                   options={issueDropdown}
                   defaultOption="--- Select Issue ---"
                   value={issueDropdownValue}
                   setValue={setIssueDropdownValue}
-                />
-                <Dropdown
-                  options={concernDropdown}
-                  defaultOption="--- Select Concern ---"
-                  value={concernDropdownValue}
-                  setValue={setConcernDropdownValue}
                 />
                 <div className="button-container d-flex justify-content-end mt-2">
                   <Button

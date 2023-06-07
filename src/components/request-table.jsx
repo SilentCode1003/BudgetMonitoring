@@ -42,8 +42,8 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
                   {requests.map((request, index) => (
                     <tr key={index}>
                       <td>{request.store}</td>
-                      <td>{request.issue}</td>
                       <td>{request.concern}</td>
+                      <td>{request.issue}</td>
                       <td>
                         <Button variant="outline-danger" onClick={() => handleRemoveRequest(index)}>
                           Remove

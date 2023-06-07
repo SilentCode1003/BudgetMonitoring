@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
-import Dropdown from '../components/dropdown';
+import Dropdown from '../components/Dropdown';
 import ReimburseTable from '../components/ReimburseTable';
 import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
 import DynamicTable from '../components/DynamicTable';
 import Data from '../MOCK_DATA2.json';
+import { useGetConcern } from '../API/request/getConcern';
 
 const Reimbursement = () => {
   const tableColumns = ['ID', 'Date', 'Request_ID', 'Request_By', 'Request_Date', 'Details', 'Status', 'Actions'];
   const tableData = Data;
+  const concerns = useGetConcern();
 
   const [locationDropdownValue, setLocationDropdownValue] = useState('');
   const [originDropdownValue, setOriginDropdownValue] = useState('');
@@ -39,6 +41,7 @@ const Reimbursement = () => {
   };
 
   useEffect(() => {
+    console.log(concerns);
     validateNumberInput();
   }, []);
 

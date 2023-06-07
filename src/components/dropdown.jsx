@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../assets/CustomDropdown.css';
 
 const Dropdown = ({ options, defaultOption, value, setValue }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -34,10 +35,7 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = (option) => {
-    setValue(option);
-    setIsOpen(false);
-  };
+  const shouldScroll = filteredOptions.length >= 10; // Check if there are 10 or more options
 
   return (
     <div className="dropdown mt-2" ref={dropdownRef}>
@@ -49,7 +47,7 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
         {value || defaultOption}
       </button>
       {isOpen && (
-        <div className="dropdown-menu show">
+        <div className={`dropdown-menu show ${shouldScroll ? 'scrollable' : ''}`}>
           <input
             type="text"
             className="form-control dropdown-search"
@@ -57,16 +55,18 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
             value={searchTerm}
             onChange={handleSearch}
           />
-          {filteredOptions.map((option, index) => (
-            <button
-              key={index}
-              className="dropdown-item"
-              type="button"
-              onClick={() => handleOptionClick(option)}
-            >
-              {option}
-            </button>
-          ))}
+          <div className="dropdown-options">
+            {filteredOptions.map((option, index) => (
+              <button
+                key={index}
+                className="dropdown-item"
+                type="button"
+                onClick={() => setValue(option)}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -74,4 +74,3 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
 };
 
 export default Dropdown;
-

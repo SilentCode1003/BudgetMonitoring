@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
-import Dropdown from '../components/dropdown';
-import RequestTable from '../components/request-table';
+import Dropdown from './Dropdown';
+import RequestTable from './Request-table';
 import Swal from 'sweetalert2';
 
 function Request() {
