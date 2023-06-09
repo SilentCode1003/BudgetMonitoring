@@ -8,6 +8,10 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
+    setFilteredOptions(options); // Reset filteredOptions when options change
+  }, [options]);
+
+  useEffect(() => {
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);

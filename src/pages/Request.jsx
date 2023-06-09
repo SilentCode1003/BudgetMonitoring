@@ -14,7 +14,9 @@ const Request = () => {
   const concernNames = concerns.data?.data.map((item) => item.concernname) || [];
   const client = useGetClientName();
   const clientStoreName = client.data?.data.map((item) => item.fullname) || [];
-  
+  const issues = useGetIssue();
+  const issueData = issues.data?.data || [];
+
   const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
   const tableData = [
     { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
@@ -36,9 +38,31 @@ const Request = () => {
   const [storeDropdownValue, setStoreDropdownValue] = useState('');
   const [issueDropdownValue, setIssueDropdownValue] = useState('');
   const [concernDropdownValue, setConcernDropdownValue] = useState('');
+  const [filteredIssues, setFilteredIssues] = useState([]);
+  const [filteredIssueNames, setFilteredIssueNames] = useState([]);
   const [requests, setRequests] = useState([]);
 
-  const issueDropdown = ['POS', 'CLIQ', 'PC', 'Cable'];
+  useEffect(() => {
+    if (concernDropdownValue) {
+      const filteredIssues = issueData.filter(
+        (issue) => issue.concernname === concernDropdownValue
+      );
+      const issueNames = filteredIssues.map((issue) => issue.issuename);
+      setFilteredIssues(filteredIssues);
+      setFilteredIssueNames(issueNames);
+      setIssueDropdownValue(''); 
+    } else {
+      setFilteredIssues([]); 
+      setFilteredIssueNames([]); 
+      setIssueDropdownValue(''); 
+    }
+  }, [concernDropdownValue, issueData]);
+  
+
+  const handleConcernChange = (value) => {
+    setConcernDropdownValue(value);
+    setIssueDropdownValue('');
+  };
 
   const handleAddRequestClick = () => {
     handleAddRequest(
@@ -100,19 +124,29 @@ const Request = () => {
                     options={concernNames}
                     defaultOption="--- Select Concern ---"
                     value={concernDropdownValue}
-                    setValue={setConcernDropdownValue}
+                    setValue={handleConcernChange}
                   />
                 ) : (
                   <button className='btn-primary w-100 dropdown-display mt-2' disabled>
                     No Concern Available
                   </button>
                 )}
+                {filteredIssueNames.length > 0 ? (
                 <Dropdown
-                  options={issueDropdown}
-                  defaultOption="--- Select Issue ---"
+                  options={filteredIssueNames}
+                  defaultOption={
+                    issueDropdownValue && filteredIssueNames.includes(issueDropdownValue)
+                      ? issueDropdownValue
+                      : '--- Select Issue ---'
+                  }
                   value={issueDropdownValue}
                   setValue={setIssueDropdownValue}
                 />
+              ) : (
+                <button className='btn-primary w-100 dropdown-display mt-2' disabled>
+                    No Issue Available
+                </button>
+              )}
                 <div className="button-container d-flex justify-content-end mt-2">
                   <Button
                     variant="outline-danger"
