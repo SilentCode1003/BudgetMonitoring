@@ -5,6 +5,7 @@ import Index from './pages/index.jsx'
 import Request from './pages/Request.jsx';
 import Reimbursement from './pages/Reimbursement.jsx';
 import Login from './pages/login.jsx';
+import Sample from './pages/sample.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/Reimbursement" element={<Reimbursement />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Index" element={<Index />} />
+        <Route path="/Sample" element={<Sample />} />
       </Routes>
     </BrowserRouter>
   </QueryClientProvider>

@@ -91,7 +91,9 @@ const Request = () => {
                   setValue={setStoreDropdownValue}
                 />
                 ):(
-                  <div className="no-data"></div>
+                  <button className='btn-primary w-100 dropdown-display' disabled>
+                  No Store Name Available
+                </button>
                 )}
                 {concernNames.length > 0 ? (
                   <Dropdown
@@ -101,7 +103,9 @@ const Request = () => {
                     setValue={setConcernDropdownValue}
                   />
                 ) : (
-                  <div>No concerns available</div>
+                  <button className='btn-primary w-100 dropdown-display mt-2' disabled>
+                    No Concern Available
+                  </button>
                 )}
                 <Dropdown
                   options={issueDropdown}

@@ -348,6 +348,13 @@ th, td{
   height: 90% !important;
 }
 
+.dropdown-display{
+  background-color: var(--clr3) !important;
+  border-color: var(--clr3) !important;
+  border-radius: .375rem !important;
+  height: 2.5rem;
+}
+
 @media (max-width: 767px) {
   .dashboard-container {
     margin-left: 0;
