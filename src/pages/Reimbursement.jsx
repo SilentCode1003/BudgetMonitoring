@@ -10,7 +10,7 @@ import Data from '../MOCK_DATA2.json';
 import { useGetConcern } from '../API/request/getConcern';
 
 const Reimbursement = () => {
-  const tableColumns = ['ID', 'Date', 'Request_ID', 'Request_By', 'Request_Date', 'Details', 'Status', 'Actions'];
+  const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status', 'Actions'];
   const tableData = Data;
   const concerns = useGetConcern();
 
@@ -111,7 +111,7 @@ const Reimbursement = () => {
 
         </Row>
         <div className='reimbursement-table'>
-          <DynamicTable title={"Reimbursement Table"} columns={tableColumns} data={tableData} />
+          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={tableData} />
         </div>
     </>
   );

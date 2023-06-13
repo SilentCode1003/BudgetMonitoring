@@ -8,6 +8,7 @@ import DynamicTable from '../components/DynamicTable';
 import { useGetConcern } from '../API/request/getConcern';
 import { useGetClientName } from '../API/request/getStoreName';
 import { useGetIssue } from '../API/request/getIssue';
+import ReimburseBtn from '../components/ReimburseBtn';
 
 const Request = () => {
   const concerns = useGetConcern();
@@ -17,7 +18,7 @@ const Request = () => {
   const issues = useGetIssue();
   const issueData = issues.data?.data || [];
 
-  const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
+  const tableHeader = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
   const tableData = [
     { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
     { ID: '1002', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
@@ -165,7 +166,7 @@ const Request = () => {
           />
         </Row>
         <div className='reimbursement-table'>
-          <DynamicTable title={"Reimbursement Table"} columns={tableColumns} data={tableData} />
+          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={tableData} />
         </div>
     </>
   );

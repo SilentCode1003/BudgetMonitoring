@@ -56,10 +56,10 @@ export default function Index(){
                 </Col>
             </Row>
             <div className="">
-                <DynamicTable title={"Current Month Budget Request"} columns={currentMonthBudget} data={currentMonthBudgetData} />
+                <DynamicTable title={"Current Month Budget Request"} header={currentMonthBudget} data={currentMonthBudgetData} />
             </div>
             <div className="">
-                <DynamicTable title={"Current Month Reimburse"} columns={currentMonthReimburse} data={currentMonthReimburseData} />
+                <DynamicTable title={"Current Month Reimburse"} header={currentMonthReimburse} data={currentMonthReimburseData} />
             </div>
         </>
     )
