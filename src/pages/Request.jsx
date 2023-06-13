@@ -8,6 +8,7 @@ import DynamicTable from '../components/DynamicTable';
 import { useGetConcern } from '../API/request/getConcern';
 import { useGetClientName } from '../API/request/getStoreName';
 import { useGetIssue } from '../API/request/getIssue';
+import Data from '../MOCK_DATA1.json'
 import ReimburseBtn from '../components/ReimburseBtn';
 
 const Request = () => {
@@ -19,22 +20,6 @@ const Request = () => {
   const issueData = issues.data?.data || [];
 
   const tableHeader = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
-  const tableData = [
-    { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1002', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1003', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1004', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1005', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1006', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1007', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1008', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1009', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1010', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1011', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1012', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1013', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1014', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-  ];
 
   const [storeDropdownValue, setStoreDropdownValue] = useState('');
   const [issueDropdownValue, setIssueDropdownValue] = useState('');
@@ -89,6 +74,12 @@ const Request = () => {
   const handleClearRequestsClick = () => {
     handleClearRequests(setRequests);
   };
+
+  const renderButton = (row) => {
+    return(
+      <ReimburseBtn></ReimburseBtn>
+    );
+  }
 
   return (
     <>
@@ -166,7 +157,7 @@ const Request = () => {
           />
         </Row>
         <div className='reimbursement-table'>
-          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={tableData} />
+          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={Data} renderButton={renderButton}/>
         </div>
     </>
   );

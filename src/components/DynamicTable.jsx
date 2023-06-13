@@ -7,7 +7,7 @@ import Pagination from 'react-bootstrap/Pagination';
 
 const ITEMS_PER_PAGE = 10;
 
-const DynamicTable = ({ title, header, data }) => {
+const DynamicTable = ({ title, header, data, renderButton }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -80,6 +80,9 @@ const DynamicTable = ({ title, header, data }) => {
                           {Object.values(row).map((value, columnIndex) => (
                             <td key={columnIndex}>{value}</td>
                           ))}
+                          <td>
+                            {renderButton(row)}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
