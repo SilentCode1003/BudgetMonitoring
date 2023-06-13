@@ -8,10 +8,11 @@ import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } f
 import DynamicTable from '../components/DynamicTable';
 import Data from '../MOCK_DATA2.json';
 import { useGetConcern } from '../API/request/getConcern';
-import ReimburseBtn from '../components/ReimburseBtn';
+import ReimburseCancelBtn from '../components/ReimburseCancelBtn';
+import ReimburseEditBtn from '../components/ReimburseEditBtn';
 
 const Reimbursement = () => {
-  const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status', 'Actions'];
+  const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status'];
   const tableData = Data;
   const concerns = useGetConcern();
 
@@ -56,9 +57,12 @@ const Reimbursement = () => {
     handleClearReimburse(setReimburse);
   };
 
-  const renderButton = (row) => {
+  const renderButtons = (row) => {
     return(
-      <ReimburseBtn></ReimburseBtn>
+      <>
+        <ReimburseEditBtn></ReimburseEditBtn>
+        <ReimburseCancelBtn></ReimburseCancelBtn>
+      </>
     );
   }
 
@@ -118,7 +122,7 @@ const Reimbursement = () => {
 
         </Row>
         <div className='reimbursement-table'>
-          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={tableData} renderButton={renderButton}/>
+          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={tableData} renderButtons={renderButtons}/>
         </div>
     </>
   );

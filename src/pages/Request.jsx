@@ -19,7 +19,7 @@ const Request = () => {
   const issues = useGetIssue();
   const issueData = issues.data?.data || [];
 
-  const tableHeader = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
+  const tableHeader = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
 
   const [storeDropdownValue, setStoreDropdownValue] = useState('');
   const [issueDropdownValue, setIssueDropdownValue] = useState('');
@@ -75,7 +75,7 @@ const Request = () => {
     handleClearRequests(setRequests);
   };
 
-  const renderButton = (row) => {
+  const renderButtons = (row) => {
     return(
       <ReimburseBtn></ReimburseBtn>
     );
@@ -157,7 +157,7 @@ const Request = () => {
           />
         </Row>
         <div className='reimbursement-table'>
-          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={Data} renderButton={renderButton}/>
+          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={Data} renderButtons={renderButtons}/>
         </div>
     </>
   );
