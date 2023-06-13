@@ -91,7 +91,7 @@ const Request = () => {
                 <Card.Title>Budget</Card.Title>
                 <Form className="justify-content-center">
                   <Form.Group>
-                    <Form.Control className='number-validator' id="#" placeholder="Enter Budget..." />
+                    <Form.Control className='number-validator' id="budget" placeholder="Enter Budget..." />
                   </Form.Group>
                 </Form>
               </Card.Body>
@@ -99,6 +99,7 @@ const Request = () => {
             <Card className="mt-2">
               <Card.Body>
                 <Card.Title>Store</Card.Title>
+                <Form.Control className='number-validator' id="ticketID" placeholder="Enter Ticket ID" />
                 {clientStoreName.length > 0 ?(
                   <Dropdown
                   options={clientStoreName}

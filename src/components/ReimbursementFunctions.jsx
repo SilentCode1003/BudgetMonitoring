@@ -67,19 +67,3 @@ export const handleRemoveReimburse = (index, reimburse, setReimburse) => {
 export const handleClearReimburse = (setReimburse) => {
   setReimburse([]);
 };
-
-export const validateNumberInput = () => {
-  const numberInputs = document.querySelectorAll('.number-validator');
-
-  numberInputs.forEach(function (input) {
-    input.addEventListener('input', function () {
-      const inputValue = this.value;
-
-      if (inputValue.length === 1 && inputValue === '0') {
-        this.value = '';
-      } else if (!/^\d*$/.test(inputValue)) {
-        this.value = inputValue.replace(/\D/g, '');
-      }
-    });
-  });
-};

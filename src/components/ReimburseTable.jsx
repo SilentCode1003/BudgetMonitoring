@@ -28,7 +28,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
         <Card>
           <Card.Body className="Reimburse-table">
             <Card.Title>Reimburse Details</Card.Title>
-            <div className="table-wrapper" ref={tableRef}>
+            <div className="table-wrapper-1" ref={tableRef}>
               <Table striped>
                 <thead>
                   <tr>
