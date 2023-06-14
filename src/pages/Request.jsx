@@ -8,6 +8,8 @@ import DynamicTable from '../components/DynamicTable';
 import { useGetConcern } from '../API/request/getConcern';
 import { useGetClientName } from '../API/request/getStoreName';
 import { useGetIssue } from '../API/request/getIssue';
+import Data from '../MOCK_DATA1.json'
+import ReimburseBtn from '../components/ReimburseBtn';
 
 const Request = () => {
   const concerns = useGetConcern();
@@ -17,23 +19,7 @@ const Request = () => {
   const issues = useGetIssue();
   const issueData = issues.data?.data || [];
 
-  const tableColumns = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
-  const tableData = [
-    { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1002', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1003', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1004', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1005', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1006', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1007', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1008', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1009', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1010', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1011', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1012', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1013', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-    { ID: '1014', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-  ];
+  const tableHeader = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
 
   const [storeDropdownValue, setStoreDropdownValue] = useState('');
   const [issueDropdownValue, setIssueDropdownValue] = useState('');
@@ -89,6 +75,12 @@ const Request = () => {
     handleClearRequests(setRequests);
   };
 
+  const renderButtons = (row) => {
+    return(
+      <ReimburseBtn></ReimburseBtn>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -99,7 +91,7 @@ const Request = () => {
                 <Card.Title>Budget</Card.Title>
                 <Form className="justify-content-center">
                   <Form.Group>
-                    <Form.Control className='number-validator' id="#" placeholder="Enter Budget..." />
+                    <Form.Control className='number-validator' id="budget" placeholder="Enter Budget..." />
                   </Form.Group>
                 </Form>
               </Card.Body>
@@ -107,6 +99,7 @@ const Request = () => {
             <Card className="mt-2">
               <Card.Body>
                 <Card.Title>Store</Card.Title>
+                <Form.Control className='number-validator' id="ticketID" placeholder="Enter Ticket ID" />
                 {clientStoreName.length > 0 ?(
                   <Dropdown
                   options={clientStoreName}
@@ -165,7 +158,7 @@ const Request = () => {
           />
         </Row>
         <div className='reimbursement-table'>
-          <DynamicTable title={"Reimbursement Table"} columns={tableColumns} data={tableData} />
+          <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={Data} renderButtons={renderButtons}/>
         </div>
     </>
   );

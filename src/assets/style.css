@@ -233,7 +233,7 @@ input {
 }
 
 .request-table{
-  height: 375px;
+  height: 421px;
 }
 
 .dropdown-search{
@@ -268,7 +268,13 @@ th, td{
 }
 
 .table-wrapper {
-  max-height: 255px;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.table-wrapper-1 {
+  max-height: 230px;
   overflow-y: auto;
   overflow-x: auto;
 }

@@ -10,14 +10,35 @@ export const handleAddRequest = (
   setIssueDropdownValue,
   setConcernDropdownValue
 ) => {
+  const budgetInput = document.getElementById('budget');
+  const ticketIDInput = document.getElementById('ticketID');
+
+  const budgetValue = budgetInput.value.trim();
+  const ticketIDValue = ticketIDInput.value.trim();
+
   if (
     storeDropdownValue === '' ||
     issueDropdownValue === '' ||
-    concernDropdownValue === ''
+    concernDropdownValue === '' ||
+    budgetValue === '' ||
+    ticketIDValue === ''
   ) {
     Swal.fire({
       title: 'Invalid Input',
       text: 'Please select values for all dropdowns.',
+      icon: 'error',
+    });
+    return;
+  }
+
+  const isDuplicateTicketID = requests.some(
+    (request) => request.ticketID === ticketIDValue
+  );
+
+  if (isDuplicateTicketID) {
+    Swal.fire({
+      title: 'Duplicate Ticket ID',
+      text: 'A request with the same ticket ID already exists in the table.',
       icon: 'error',
     });
     return;
@@ -40,6 +61,8 @@ export const handleAddRequest = (
   }
 
   const newRequest = {
+    ticketID: ticketIDValue,
+    budget: budgetValue,
     store: storeDropdownValue,
     issue: issueDropdownValue,
     concern: concernDropdownValue,
@@ -50,6 +73,8 @@ export const handleAddRequest = (
   setStoreDropdownValue('');
   setIssueDropdownValue('');
   setConcernDropdownValue('');
+  budgetInput.value = '';
+  ticketIDInput.value = '';
 };
 
 export const handleRemoveRequest = (index, requests, setRequests) => {

@@ -4,15 +4,15 @@ import { CDBDataTable } from "cdbreact";
 import DynamicTable from "../components/DynamicTable";
 
 export default function Index(){
-    const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
+    const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
     const currentMonthReimburseData = [
-        { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
-        { ID: '1002', 'Request Date': '02/06/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something Else', Status: 'Inactive', Actions: 'Something' },
+        { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active'},
+        { ID: '1002', 'Request Date': '02/06/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something Else', Status: 'Inactive'},
     ];
 
-    const currentMonthBudget = ['ID', 'Request Date', 'Request By', 'Details', 'Status', 'Actions'];
+    const currentMonthBudget = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
     const currentMonthBudgetData = [
-        { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active', Actions: 'Something' },
+        { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active'},
     ];
     return(
         <>
@@ -56,10 +56,10 @@ export default function Index(){
                 </Col>
             </Row>
             <div className="">
-                <DynamicTable title={"Current Month Budget Request"} columns={currentMonthBudget} data={currentMonthBudgetData} />
+                <DynamicTable title={"Current Month Budget Request"} header={currentMonthBudget} data={currentMonthBudgetData} />
             </div>
             <div className="">
-                <DynamicTable title={"Current Month Reimburse"} columns={currentMonthReimburse} data={currentMonthReimburseData} />
+                <DynamicTable title={"Current Month Reimburse"} header={currentMonthReimburse} data={currentMonthReimburseData} />
             </div>
         </>
     )

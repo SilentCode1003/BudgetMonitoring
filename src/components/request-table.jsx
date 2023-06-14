@@ -22,6 +22,11 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
     }
   };
 
+  //const formatBudget = (budget) => {
+  //  const formattedBudget = Number(budget).toFixed(2);
+  //  return `₱ ${formattedBudget}`;
+  //};
+
   return (
     <>
       <Col className="mt-4">
@@ -32,6 +37,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
               <Table striped>
                 <thead>
                   <tr>
+                    <th>Ticket ID</th>
                     <th>Store Name</th>
                     <th>Concern</th>
                     <th>Issue</th>
@@ -41,6 +47,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
                 <tbody>
                   {requests.map((request, index) => (
                     <tr key={index}>
+                      <td>{request.ticketID}</td>
                       <td>{request.store}</td>
                       <td>{request.concern}</td>
                       <td>{request.issue}</td>
