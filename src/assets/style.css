@@ -361,6 +361,10 @@ th, td{
   height: 2.5rem;
 }
 
+.white-text{
+  color: white;
+}
+
 @media (max-width: 767px) {
   .dashboard-container {
     margin-left: 0;

@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react';
-import { Col, Card, Table, Button } from 'react-bootstrap';
+import React, { useRef, useEffect, useState } from 'react';
+import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 
-export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget, ticketId }) {
+export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
 
   const handleSubmitRequests = (requestedBy) => {
     const formattedRequests = requests.map((request) => ({
-      ticketId: request.ticketId,
+      ticketId: `SR-${request.ticketId}`,
       storeName: request.store,
       concern: request.concern,
       issue: request.issue,
@@ -38,20 +38,28 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
 
     console.log(requestData);
 
+    setBudget('');
     handleClearRequests();
   };
 
-  //const formatBudget = (budget) => {
-  //  const formattedBudget = Number(budget).toFixed(2);
-  //  return `₱ ${formattedBudget}`;
-  //};
+  const formatBudget = (budget) => {
+    const formattedBudget = Number(budget).toFixed(2);
+    return `₱ ${formattedBudget}`;
+  };
 
   return (
     <>
       <Col className="mt-4">
         <Card>
           <Card.Body className="request-table">
-            <Card.Title>Request Details</Card.Title>
+            <Row>
+              <Col>
+               <Card.Title>Request Details</Card.Title>         
+              </Col>
+              <Col>
+                <h5 className='white-text'>Budget: {formatBudget(budget)}</h5>
+              </Col>
+            </Row>
             <div className="table-wrapper" ref={tableRef}>
               <Table striped>
                 <thead>
@@ -66,7 +74,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
                 <tbody>
                   {requests.map((request, index) => (
                     <tr key={index}>
-                      <td>{request.ticketId}</td>
+                      <td>{`SR-${request.ticketId}`}</td>
                       <td>{request.store}</td>
                       <td>{request.concern}</td>
                       <td>{request.issue}</td>
