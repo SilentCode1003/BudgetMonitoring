@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Col, Card, Table, Button } from 'react-bootstrap';
 
-export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest }) {
+export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget, ticketId }) {
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -20,6 +20,25 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
         tableBody.style.maxHeight = maxHeight;
       }
     }
+  };
+
+  const handleSubmitRequests = (requestedBy) => {
+    const formattedRequests = requests.map((request) => ({
+      ticketId: request.ticketId,
+      storeName: request.store,
+      concern: request.concern,
+      issue: request.issue,
+    }));
+
+    const requestData = {
+      budget: Number(budget),
+      requestedBy,
+      details: formattedRequests,
+    };
+
+    console.log(requestData);
+
+    handleClearRequests();
   };
 
   //const formatBudget = (budget) => {
@@ -47,7 +66,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
                 <tbody>
                   {requests.map((request, index) => (
                     <tr key={index}>
-                      <td>{request.ticketID}</td>
+                      <td>{request.ticketId}</td>
                       <td>{request.store}</td>
                       <td>{request.concern}</td>
                       <td>{request.issue}</td>
@@ -65,7 +84,10 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
               <Button variant="outline-danger mr-2" onClick={handleClearRequests}>
                 Clear Requests
               </Button>{' '}
-              <Button variant="outline-danger">
+              <Button
+                variant="outline-danger"
+                onClick={() => handleSubmitRequests('Ralph')}
+              >
                 Submit Requests
               </Button>
             </div>

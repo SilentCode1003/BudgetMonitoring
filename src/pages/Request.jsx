@@ -27,6 +27,8 @@ const Request = () => {
   const [filteredIssues, setFilteredIssues] = useState([]);
   const [filteredIssueNames, setFilteredIssueNames] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [budget, setBudget] = useState('');
+  const [ticketId, setTicketId] = useState('');
 
   useEffect(() => {
     if (concernDropdownValue) {
@@ -44,7 +46,6 @@ const Request = () => {
     }
   }, [concernDropdownValue, issueData]);
   
-
   const handleConcernChange = (value) => {
     setConcernDropdownValue(value);
     setIssueDropdownValue('');
@@ -59,8 +60,12 @@ const Request = () => {
       setRequests,
       setStoreDropdownValue,
       setIssueDropdownValue,
-      setConcernDropdownValue
+      setConcernDropdownValue,
+      budget,
+      ticketId
     );
+    
+    setTicketId('');
   };
 
   useEffect(() => {
@@ -91,7 +96,13 @@ const Request = () => {
                 <Card.Title>Budget</Card.Title>
                 <Form className="justify-content-center">
                   <Form.Group>
-                    <Form.Control className='number-validator' id="budget" placeholder="Enter Budget..." />
+                    <Form.Control
+                      className="number-validator"
+                      id="budget"
+                      placeholder="Enter Budget..."
+                      value={budget}
+                      onChange={(e) => setBudget(e.target.value)}
+                    />
                   </Form.Group>
                 </Form>
               </Card.Body>
@@ -99,7 +110,13 @@ const Request = () => {
             <Card className="mt-2">
               <Card.Body>
                 <Card.Title>Store</Card.Title>
-                <Form.Control className='number-validator' id="ticketID" placeholder="Enter Ticket ID" />
+                <Form.Control
+                  className="number-validator"
+                  id="ticketID"
+                  placeholder="Enter Ticket ID"
+                  value={ticketId}
+                  onChange={(e) => setTicketId(e.target.value)}
+                />
                 {clientStoreName.length > 0 ?(
                   <Dropdown
                   options={clientStoreName}
@@ -155,6 +172,8 @@ const Request = () => {
             requests={requests}
             handleRemoveRequest={handleRemoveRequestClick}
             handleClearRequests={handleClearRequestsClick}
+            budget={budget} 
+            ticketId={ticketId} 
           />
         </Row>
         <div className='reimbursement-table'>
