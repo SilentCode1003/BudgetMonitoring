@@ -6,7 +6,7 @@ import { usePostRequest } from '../API/submit/postRequest';
 export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
   const tableRef = useRef(null);
   const postRequest = usePostRequest();
-
+//  console.log(requests);
   useEffect(() => {
     adjustTableHeight();
     window.addEventListener('resize', adjustTableHeight);
@@ -25,12 +25,12 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
     }
   };
 
-  const handleSubmitRequests = (requestedBy) => {
+  const handleSubmitRequests = async(requestedBy) => {
     if (requests.length === 0) {
       Swal.fire('Error', 'Cannot submit empty requests!', 'error');
       return;
     }
-  
+    
     const formattedRequests = requests.map((request) => ({
       ticketid: `SR-${request.ticketId}`,
       storename: request.store,
@@ -45,9 +45,14 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
     };
     
     console.log(requestData);
-    postRequest.mutate(requestData);
-    setBudget('');
-    handleClearRequests();
+    try {
+      await postRequest.mutateAsync(requestData);
+      Swal.fire('Success', 'Request submitted successfully!', 'success');
+      setBudget('');
+      handleClearRequests();
+    } catch (error) {
+      Swal.fire('Error', 'Failed to submit request!', 'error');
+    }
   };
 
   const formatBudget = (budget) => {
@@ -105,7 +110,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
               </Button>{' '}
               <Button
                 variant="outline-danger"
-                onClick={() => handleSubmitRequests('Ralph Lauren Santos')}
+                onClick={() => handleSubmitRequests('230621')}
               >
                 Submit Requests
               </Button>
