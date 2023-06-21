@@ -1,8 +1,11 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
+import Swal from 'sweetalert2';
+import { usePostRequest } from '../API/submit/postRequest';
 
 export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
   const tableRef = useRef(null);
+  const postRequest = usePostRequest();
 
   useEffect(() => {
     adjustTableHeight();
@@ -23,29 +26,37 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
   };
 
   const handleSubmitRequests = (requestedBy) => {
+    if (requests.length === 0) {
+      Swal.fire('Error', 'Cannot submit empty requests!', 'error');
+      return;
+    }
+  
     const formattedRequests = requests.map((request) => ({
-      ticketId: `SR-${request.ticketId}`,
-      storeName: request.store,
+      ticketid: `SR-${request.ticketId}`,
+      storename: request.store,
       concern: request.concern,
       issue: request.issue,
     }));
 
     const requestData = {
       budget: Number(budget),
-      requestedBy,
-      details: formattedRequests,
+      requestby: requestedBy,
+      details: JSON.stringify(formattedRequests),
     };
-
+    
     console.log(requestData);
-
+    postRequest.mutate(requestData);
     setBudget('');
     handleClearRequests();
   };
 
   const formatBudget = (budget) => {
     const formattedBudget = Number(budget).toFixed(2);
-    return `₱ ${formattedBudget}`;
+    const [integerPart, decimalPart] = formattedBudget.split('.');
+    const formattedIntegerPart = parseInt(integerPart).toLocaleString('en');
+    return `₱ ${formattedIntegerPart}.${decimalPart}`;
   };
+  
 
   return (
     <>
@@ -94,7 +105,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
               </Button>{' '}
               <Button
                 variant="outline-danger"
-                onClick={() => handleSubmitRequests('Ralph')}
+                onClick={() => handleSubmitRequests('Ralph Lauren Santos')}
               >
                 Submit Requests
               </Button>

@@ -9,7 +9,6 @@ export const handleAddRequest = (
   setStoreDropdownValue,
   setIssueDropdownValue,
   setConcernDropdownValue,
-  ticketId
 ) => {
   const budgetInput = document.getElementById('budget');
   const ticketIDInput = document.getElementById('ticketID');
@@ -22,7 +21,7 @@ export const handleAddRequest = (
     issueDropdownValue === '' ||
     concernDropdownValue === '' ||
     budgetValue === '' ||
-    ticketId === ''
+    ticketIDValue === ''
   ) {
     Swal.fire({
       title: 'Invalid Input',
