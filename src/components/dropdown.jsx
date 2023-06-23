@@ -8,7 +8,7 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    setFilteredOptions(options); // Reset filteredOptions when options change
+    setFilteredOptions(options);
   }, [options]);
 
   useEffect(() => {

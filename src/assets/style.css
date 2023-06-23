@@ -281,7 +281,7 @@ th, td{
 
 th, td{
   text-align: center !important;
-  white-space: nowrap;
+  
 }
 
 .reimburse-table{
@@ -359,6 +359,10 @@ th, td{
   border-color: var(--clr3) !important;
   border-radius: .375rem !important;
   height: 2.5rem;
+}
+
+.white-text{
+  color: white;
 }
 
 @media (max-width: 767px) {

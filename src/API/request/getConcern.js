@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { axios } from '../axios'
+import { ticketAPI } from '../axios'
 
 export const getConcern = async () => {
-  const res = await axios.get('/concern/load')
+  const res = await ticketAPI.get('/concern/load')
   return res.data
 }
 

@@ -8,7 +8,7 @@ export const handleAddRequest = (
   setRequests,
   setStoreDropdownValue,
   setIssueDropdownValue,
-  setConcernDropdownValue
+  setConcernDropdownValue,
 ) => {
   const budgetInput = document.getElementById('budget');
   const ticketIDInput = document.getElementById('ticketID');
@@ -32,7 +32,7 @@ export const handleAddRequest = (
   }
 
   const isDuplicateTicketID = requests.some(
-    (request) => request.ticketID === ticketIDValue
+    (request) => request.ticketId === ticketIDValue
   );
 
   if (isDuplicateTicketID) {
@@ -61,7 +61,7 @@ export const handleAddRequest = (
   }
 
   const newRequest = {
-    ticketID: ticketIDValue,
+    ticketId: ticketIDValue,
     budget: budgetValue,
     store: storeDropdownValue,
     issue: issueDropdownValue,

@@ -45,7 +45,7 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
 
   return (
     <>
-      <Row className='mt-3'>
+      <Row className="mt-3">
         <Col>
           <Card>
             <Card.Body>
@@ -54,19 +54,25 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
                   <Card.Title>{title}</Card.Title>
                 </Col>
                 <Col md={6}>
-                  <div className='mb-3'>
+                  <div className="mb-3">
                     <input
-                      type='text'
-                      placeholder='Search'
+                      type="text"
+                      placeholder="Search"
                       value={searchTerm}
                       onChange={handleSearch}
                     />
                   </div>
                 </Col>
               </Row>
-              <div className='table-container'>
-                <div className='table-scroll-container'>
+              <div className="table-container">
+                <div className="table-scroll-container">
                   <Table striped>
+                    <colgroup>
+                      {header.map((_, index) => (
+                        <col key={index} style={{ maxWidth: '200px' }} />
+                      ))}
+                      {renderButtons && <col style={{ maxWidth: '100px' }} />}
+                    </colgroup>
                     <thead>
                       <tr>
                         {header.map((column, index) => (
@@ -88,7 +94,7 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
                   </Table>
                 </div>
               </div>
-              <div className='pagination-container mt-3 d-flex justify-content-end'>
+              <div className="pagination-container mt-3 d-flex justify-content-end">
                 <Pagination>{paginationItems}</Pagination>
               </div>
             </Card.Body>
