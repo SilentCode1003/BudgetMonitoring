@@ -267,6 +267,10 @@ th, td{
   color: white !important;
 }
 
+th{
+  white-space: nowrap;
+}
+
 .table-wrapper {
   max-height: 300px;
   overflow-y: auto;

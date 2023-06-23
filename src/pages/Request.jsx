@@ -9,16 +9,37 @@ import { useGetConcern } from '../API/request/getConcern';
 import { useGetClientName } from '../API/request/getStoreName';
 import { useGetIssue } from '../API/request/getIssue';
 import { useGetRequestBudget } from '../API/request/getRequestBudget';
-import Data from '../MOCK_DATA1.json';
+import { usePostRequest } from '../API/submit/postRequestBy';
 import ReimburseBtn from '../components/ReimburseBtn';
 
 const Request = () => {
+  const postRequest = usePostRequest();
   const requestData = useGetRequestBudget()?.data?.data || [];
   const concerns = useGetConcern()?.data?.data || [];
   const concernNames = concerns.map((item) => item.concernname);
   const client = useGetClientName()?.data?.data || [];
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
+
+  useEffect(() => {
+    const handlePostRequest = async () => {
+      try {
+        const requestData = {
+          requestby: "230621"
+        };
+        await postRequest.mutateAsync(requestData);
+        
+      } catch (error) {
+        
+      }
+    };
+  
+    handlePostRequest();
+  }, []); 
+
+  useEffect(() => {
+    validateNumberInput();
+  }, []);
 
   const tableHeader = ['Request ID', 'Request By', 'Request Date', 'Budget', 'Details', 'Status'];
 
@@ -68,10 +89,6 @@ const Request = () => {
     setTicketId('');
   };
 
-  useEffect(() => {
-    validateNumberInput();
-  }, []);
-
   const handleRemoveRequestClick = (index) => {
     handleRemoveRequest(index, requests, setRequests);
   };
@@ -83,6 +100,11 @@ const Request = () => {
   const renderButtons = (row) => {
     return <ReimburseBtn />;
   };
+
+  
+    const responseData = postRequest?.data?.data || [];
+    console.log(responseData);
+  
 
   return (
     <>
@@ -174,7 +196,7 @@ const Request = () => {
         />
       </Row>
       <div className="reimbursement-table">
-        <DynamicTable title="Reimbursement Table" header={tableHeader} data={requestData} renderButtons={renderButtons} />
+        <DynamicTable title="Reimbursement Table" header={tableHeader} data={responseData} renderButtons={renderButtons} />
       </div>
     </>
   );
