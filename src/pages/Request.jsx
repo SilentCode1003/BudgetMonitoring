@@ -20,22 +20,53 @@ const Request = () => {
   const client = useGetClientName()?.data?.data || [];
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
+  const responseData = postRequest?.data?.data || [];
 
+  //console.log(responseData);
   useEffect(() => {
     const handlePostRequest = async () => {
-      try {
-        const requestData = {
-          requestby: "230621"
-        };
-        await postRequest.mutateAsync(requestData);
-        
-      } catch (error) {
-        
-      }
+      const requestData = {
+        requestby: "230621"
+      };
+      await postRequest.mutateAsync(requestData);
     };
   
     handlePostRequest();
   }, []); 
+
+  const formattedResponseData = responseData.map((item) => {
+    const details = JSON.parse(item.details);
+    let formattedDetails = '';
+    if (details.length <= 2) {
+      formattedDetails = details.map((detail, index) => {
+        const { ticketid, storename, concern, issue } = detail;
+        return (
+          <div key={index}>
+            {ticketid}, {storename}, {concern}, {issue}
+          </div>
+        );
+      });
+    } else {
+      formattedDetails = details.map((detail, index) => {
+        const { ticketid, storename, concern, issue } = detail;
+        return (
+          <div key={index}> 
+            {index + 1}. {ticketid}, {storename}, {concern}, {issue}
+          </div>
+        );
+      });
+    }
+    return {
+      'Request ID': item.requestid,
+      'Request By': item.requestby,
+      'Request Date': item.requestdate,
+      Budget: item.budget,
+      Details: formattedDetails,
+      Status: item.status,
+    };
+  });  
+  
+  console.log(formattedResponseData);
 
   useEffect(() => {
     validateNumberInput();
@@ -101,10 +132,6 @@ const Request = () => {
     return <ReimburseBtn />;
   };
 
-  
-    const responseData = postRequest?.data?.data || [];
-    console.log(responseData);
-  
 
   return (
     <>
@@ -196,7 +223,7 @@ const Request = () => {
         />
       </Row>
       <div className="reimbursement-table">
-        <DynamicTable title="Reimbursement Table" header={tableHeader} data={responseData} renderButtons={renderButtons} />
+        <DynamicTable title="Reimbursement Table" header={tableHeader} data={formattedResponseData} renderButtons={renderButtons} />
       </div>
     </>
   );

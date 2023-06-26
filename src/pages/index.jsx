@@ -24,7 +24,7 @@ export default function Index(){
                             <Card.Title className="dashboard-text">
                                 On-hand/Petty Cash
                             </Card.Title>
-                            <h2>
+                            <h2 className="white-text">
                             ₱ 1,000.00
                             </h2>
                         </Card.Body>
@@ -36,7 +36,7 @@ export default function Index(){
                             <Card.Title className="dashboard-text">
                                 Total Request
                             </Card.Title>
-                            <h2>
+                            <h2 className="white-text">
                             ₱ 11,000.00
                             </h2>
                         </Card.Body>
@@ -48,7 +48,7 @@ export default function Index(){
                             <Card.Title className="dashboard-text">
                                 Total Reimburse
                             </Card.Title>
-                            <h2>
+                            <h2 className="white-text">
                             ₱ 20,000.00
                             </h2>
                         </Card.Body>
