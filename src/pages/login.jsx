@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import '../assets/style.css';
 import Swal from 'sweetalert2';
+import { usePostLogin } from '../API/submit/postLogin';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const showAlert = () => {
+  const postLoginMutation = usePostLogin();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     if (username === '' || password === '') {
       Swal.fire({
         title: 'Error',
@@ -14,17 +18,48 @@ export default function Login() {
         icon: 'error',
         confirmButtonText: 'OK',
       });
-    } else {
+      return;
+    }
+
+    try {
+      const response = await postLoginMutation.mutateAsync({
+        username,
+        password,
+      });
+
+      if (response.msg === 'success') {
+        const userData = response.data[0];
+        console.log(response.msg);
+        console.log(userData);
+        
+        Swal.fire({
+          title: 'Success',
+          text: 'Login successful',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: 'Login failed',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      }
+    } catch (error) {
       Swal.fire({
-        title: 'Success',
-        text: 'Login successful',
-        icon: 'success',
+        title: 'Error',
+        text: 'Login failed',
+        icon: 'error',
         confirmButtonText: 'OK',
       });
     }
+
+    setUsername('');
+    setPassword('');
   };
 
-  return(
+  return (
     <>
       <div className="login-page">
         <div className="container login-container">
@@ -57,7 +92,12 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <div className="btn-div">
-                <button className='login-btn' onClick={showAlert} type="button" id="loginBtn">
+                <button
+                  className="login-btn"
+                  onClick={handleSubmit}
+                  type="button"
+                  id="loginBtn"
+                >
                   Log in
                 </button>
               </div>
