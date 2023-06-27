@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { usePostLogin } from '../API/submit/postLogin';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigate = useNavigate();
   const postLoginMutation = usePostLogin();
 
   const handleSubmit = async (event) => {
@@ -37,6 +38,8 @@ export default function Login() {
           text: 'Login successful',
           icon: 'success',
           confirmButtonText: 'OK',
+        }).then(() => {
+          navigate('/index');
         });
       } else {
         Swal.fire({
@@ -54,7 +57,7 @@ export default function Login() {
         confirmButtonText: 'OK',
       });
     }
-
+    
     setUsername('');
     setPassword('');
   };
