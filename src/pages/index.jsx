@@ -12,6 +12,10 @@ export default function Index(){
     const balance = balanceData.map((item) => item.balance)
     const employee = userData && userData.employeeid;
     
+    const formattedBalance = balanceData.map((item) => {
+        const formattedItem = parseFloat(item.balance).toFixed(2);
+        return formattedItem.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      });
 
     useEffect(() => {
         const handlePostRequest = async () => {
@@ -25,7 +29,7 @@ export default function Index(){
           handlePostRequest();
         }
       }, [employee]);
-      console.log(balance)
+      console.log(formattedBalance)
       
 
     const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
@@ -48,7 +52,7 @@ export default function Index(){
                                 On-hand/Petty Cash
                             </Card.Title>
                             <h2 className="white-text">
-                            ₱ {balance}
+                            ₱ {formattedBalance}
                             </h2>
                         </Card.Body>
                     </Card>
