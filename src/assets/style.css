@@ -201,6 +201,7 @@ input {
   margin-right: .2rem;
   color: var(--card-r-bg);
   margin-top: .75rem;
+  white-space: nowrap;
 }
 
 .request-page{

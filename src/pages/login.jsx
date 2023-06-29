@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { usePostLogin } from '../API/submit/postLogin';
+import { UserContext } from '../components/userContext';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const postLoginMutation = usePostLogin();
+  const { updateUserData } = useContext(UserContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,6 +34,8 @@ export default function Login() {
         const userData = response.data[0];
         console.log(response.msg);
         console.log(userData);
+
+        updateUserData(userData);
         
         Swal.fire({
           title: 'Success',

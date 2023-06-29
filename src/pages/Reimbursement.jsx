@@ -68,7 +68,6 @@ const Reimbursement = () => {
 
   return (
     <>
-      <Header />
         <Row>
           <Col  md={5} className="mt-4">
             <Card>

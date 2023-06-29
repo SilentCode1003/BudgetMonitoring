@@ -6,7 +6,7 @@ import { usePostRequest } from '../API/submit/postRequest';
 export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
   const tableRef = useRef(null);
   const postRequest = usePostRequest();
-//  console.log(requests);
+
   useEffect(() => {
     adjustTableHeight();
     window.addEventListener('resize', adjustTableHeight);

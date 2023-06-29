@@ -4,9 +4,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from '../assets/img/5L-logo-white.png';
+import React, {useContext} from "react";
+import { UserContext } from './userContext';
 import '../assets/style.css'
 
 function Header() {
+  const { userData } = useContext(UserContext);
+  console.log(userData);
   return (
     <>
     <Navbar className='bms-navbar-bg' expand="lg" variant='dark'>
@@ -55,7 +59,7 @@ function Header() {
                 </span>
             </div>
             <div className="d-flex">
-              <Nav className='flex-grow-1 user-profile hidden-mobile' href="/Index">(Username)</Nav>
+              <Nav className='flex-grow-1 user-profile hidden-mobile' href="/Index">{userData && userData.fullname}</Nav>
               <NavDropdown title={<img alt="user-profile" src={logo} height={35} className='d-inline-block align-top user-profile-picture user-dropdown'/>} id="user-profile-dropdown">
                 <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
                 <NavDropdown.Divider />

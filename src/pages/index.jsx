@@ -1,7 +1,8 @@
-import Header from "../components/Header";
+import React, {useContext} from "react";
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { CDBDataTable } from "cdbreact";
 import DynamicTable from "../components/DynamicTable";
+import { UserContext } from "../components/userContext";
 
 export default function Index(){
     const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
@@ -16,7 +17,6 @@ export default function Index(){
     ];
     return(
         <>
-            <Header/>
             <Row className="mt-3">
                 <Col md={4} className="dashboard-card-container">
                     <Card>

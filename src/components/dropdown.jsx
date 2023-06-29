@@ -9,12 +9,6 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    if (!_isEqual(options, filteredOptions)) {
-      setFilteredOptions(options);
-    }
-  }, [options, filteredOptions]);
-
-  useEffect(() => {
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
@@ -48,7 +42,7 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
   };
 
   const shouldScroll = filteredOptions.length >= 10;
-  
+
   return (
     <div className="dropdown mt-2" ref={dropdownRef}>
       <button

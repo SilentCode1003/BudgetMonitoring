@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import Dropdown from '../components/Dropdown';
-import RequestTable from '../components/Request-table';
+import RequestTable from '../components/RequestTable';
 import { handleAddRequest, handleRemoveRequest, handleClearRequests, validateNumberInput } from '../components/RequestFunctions';
 import DynamicTable from '../components/DynamicTable';
 import { useGetConcern } from '../API/request/getConcern';
@@ -14,7 +14,6 @@ import ReimburseBtn from '../components/ReimburseBtn';
 
 const Request = () => {
   const postRequest = usePostRequest();
-  const requestData = useGetRequestBudget()?.data?.data || [];
   const concerns = useGetConcern()?.data?.data || [];
   const concernNames = concerns.map((item) => item.concernname);
   const client = useGetClientName()?.data?.data || [];
@@ -135,7 +134,6 @@ const Request = () => {
 
   return (
     <>
-      <Header />
       <Row>
         <Col className="mt-4">
           <Card>
