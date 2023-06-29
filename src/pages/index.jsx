@@ -1,10 +1,33 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { CDBDataTable } from "cdbreact";
 import DynamicTable from "../components/DynamicTable";
 import { UserContext } from "../components/userContext";
+import { usePostBalance } from "../API/submit/postBalance";
 
 export default function Index(){
+    const { userData } = useContext(UserContext);
+    const postBalance = usePostBalance();
+    const balanceData = postBalance?.data?.data || [];
+    const balance = balanceData.map((item) => item.balance)
+    const employee = userData && userData.employeeid;
+    
+
+    useEffect(() => {
+        const handlePostRequest = async () => {
+          const requestBalance = {
+            employeeid: employee
+          };
+          await postBalance.mutateAsync(requestBalance);
+        };
+      
+        if (employee) {
+          handlePostRequest();
+        }
+      }, [employee]);
+      console.log(balance)
+      
+
     const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
     const currentMonthReimburseData = [
         { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active'},
@@ -25,7 +48,7 @@ export default function Index(){
                                 On-hand/Petty Cash
                             </Card.Title>
                             <h2 className="white-text">
-                            ₱ 1,000.00
+                            ₱ {balance}
                             </h2>
                         </Card.Body>
                     </Card>

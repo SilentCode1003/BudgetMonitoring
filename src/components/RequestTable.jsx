@@ -1,12 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { usePostRequest } from '../API/submit/postRequest';
+import { UserContext } from './userContext';
 
 export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
   const tableRef = useRef(null);
   const postRequest = usePostRequest();
-
+  const { userData } = useContext(UserContext);
+  const employeeID = (userData && userData.employeeid);
   useEffect(() => {
     adjustTableHeight();
     window.addEventListener('resize', adjustTableHeight);
@@ -110,7 +112,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
               </Button>{' '}
               <Button
                 variant="outline-danger"
-                onClick={() => handleSubmitRequests('230621')}
+                onClick={() => handleSubmitRequests(employeeID)}
               >
                 Submit Requests
               </Button>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import Dropdown from '../components/Dropdown';
@@ -8,11 +8,12 @@ import DynamicTable from '../components/DynamicTable';
 import { useGetConcern } from '../API/request/getConcern';
 import { useGetClientName } from '../API/request/getStoreName';
 import { useGetIssue } from '../API/request/getIssue';
-import { useGetRequestBudget } from '../API/request/getRequestBudget';
 import { usePostRequest } from '../API/submit/postRequestBy';
 import ReimburseBtn from '../components/ReimburseBtn';
-
+import { UserContext } from '../components/userContext';
 const Request = () => {
+  const { userData } = useContext(UserContext);
+  const employee = userData && userData.employeeid;
   const postRequest = usePostRequest();
   const concerns = useGetConcern()?.data?.data || [];
   const concernNames = concerns.map((item) => item.concernname);
@@ -20,18 +21,20 @@ const Request = () => {
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
   const responseData = postRequest?.data?.data || [];
-
+  console.log(employee)
   //console.log(responseData);
   useEffect(() => {
     const handlePostRequest = async () => {
       const requestData = {
-        requestby: "230621"
+        requestby: employee
       };
       await postRequest.mutateAsync(requestData);
     };
   
-    handlePostRequest();
-  }, []); 
+    if (employee) {
+      handlePostRequest();
+    }
+  }, [employee]);
 
   const formattedResponseData = responseData.map((item) => {
     const details = JSON.parse(item.details);
@@ -130,7 +133,6 @@ const Request = () => {
   const renderButtons = (row) => {
     return <ReimburseBtn />;
   };
-
 
   return (
     <>
