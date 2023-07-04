@@ -7,8 +7,10 @@ import { UserContext } from './userContext';
 export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
   const tableRef = useRef(null);
   const postRequest = usePostRequest();
+  const postRequestMsg = postRequest.map
   const { userData } = useContext(UserContext);
   const employeeID = (userData && userData.employeeid);
+
   useEffect(() => {
     adjustTableHeight();
     window.addEventListener('resize', adjustTableHeight);
@@ -45,15 +47,25 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
       requestby: requestedBy,
       details: JSON.stringify(formattedRequests),
     };
-    
-    console.log(requestData);
+
+    //console.log(requestData);
     try {
-      await postRequest.mutateAsync(requestData);
-      Swal.fire('Success', 'Request submitted successfully!', 'success');
-      setBudget('');
-      handleClearRequests();
+      const requestMsg = await postRequest.mutateAsync(requestData);
+      if (requestMsg.msg === 'notreimburse'){
+        Swal.fire({
+          title: 'Notice!',
+          text: 'Your request cannot be processed because you still have pending request.',
+          icon: 'warning',
+          confirmButtonText: 'OK',
+        })
+      }
     } catch (error) {
-      Swal.fire('Error', 'Failed to submit request!', 'error');
+      Swal.fire({
+        title: 'Success',
+        text: 'Request Successfuly Submitted.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      })
     }
   };
 

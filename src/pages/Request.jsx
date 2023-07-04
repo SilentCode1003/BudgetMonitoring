@@ -21,9 +21,8 @@ const Request = () => {
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
   const responseData = postRequest?.data?.data || [];
-  const btnFilter = responseData.map((item) => item.status);
-  console.log(btnFilter)
-  console.log(employee)
+  //console.log(btnFilter)
+  //console.log(employee)
 
   useEffect(() => {
     const handlePostRequest = async () => {
@@ -70,7 +69,7 @@ const Request = () => {
     };
   });  
   
-  console.log(formattedResponseData);
+  //console.log(formattedResponseData);
 
   useEffect(() => {
     validateNumberInput();

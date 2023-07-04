@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import picture from '../assets/img/5L_logo-white2.png';
 import { usePostLogin } from '../API/submit/postLogin';
 import { UserContext } from '../components/userContext';
 
@@ -74,7 +75,7 @@ export default function Login() {
             <div className="login">
               <img
                 alt=""
-                src="src\assets\img\5L_logo-white2.png"
+                src={picture}
                 height="300px"
                 className="company-logo"
               />
