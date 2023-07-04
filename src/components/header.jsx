@@ -4,13 +4,28 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import logo from '../assets/img/5L-logo-white.png';
-import React, {useContext} from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from './userContext';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import '../assets/style.css'
 
 function Header() {
   const { userData } = useContext(UserContext);
   console.log(userData);
+  const { logout } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout()
+    Swal.fire({
+      title: 'Notice',
+      text: 'Log Out Successful',
+      icon: 'success',
+    });
+    navigate('/Login');
+  };
+
   return (
     <>
     <Navbar className='bms-navbar-bg' expand="lg" variant='dark'>
@@ -63,7 +78,7 @@ function Header() {
               <NavDropdown title={<img alt="user-profile" src={logo} height={35} className='d-inline-block align-top user-profile-picture user-dropdown'/>} id="user-profile-dropdown">
                 <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#logout">Logout</NavDropdown.Item>
+                <NavDropdown.Item href="#logout" onClick={handleLogout}>Logout</NavDropdown.Item>
               </NavDropdown>
             </div>
           </Form>

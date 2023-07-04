@@ -20,8 +20,13 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem('userData', JSON.stringify(userData));
   }, [userData]);
 
+  const logout = () => {
+    setUserData(null);
+    
+  };
+
   return (
-    <UserContext.Provider value={{ userData, updateUserData }}>
+    <UserContext.Provider value={{ userData, updateUserData, logout}}>
       {children}
     </UserContext.Provider>
   );

@@ -21,8 +21,10 @@ const Request = () => {
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
   const responseData = postRequest?.data?.data || [];
+  const btnFilter = responseData.map((item) => item.status);
+  console.log(btnFilter)
   console.log(employee)
-  //console.log(responseData);
+
   useEffect(() => {
     const handlePostRequest = async () => {
       const requestData = {
