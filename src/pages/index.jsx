@@ -3,55 +3,77 @@ import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { CDBDataTable } from "cdbreact";
 import DynamicTable from "../components/DynamicTable";
 import { UserContext } from "../components/userContext";
-import { usePostBalance } from "../API/submit/postBalance";
-import { usePostBudget } from "../API/submit/postBudget";
+import { usePostBalance } from "../API/submit/postPettyCash";
+import { usePostBudget } from "../API/submit/postTotalRequest";
+import { usePostTotalReimburse } from "../API/submit/postTotalReimburse";
 
 export default function Index(){
     const { userData } = useContext(UserContext);
     const employee = userData && userData.employeeid;
-    const postBalance = usePostBalance();
-    const balanceData = postBalance?.data?.data || [];
-    const postBudget = usePostBudget();
-    const budgetData = postBudget?.data?.data || [];
+    const pettyCash = usePostBalance();
+    const totalPettyCash = pettyCash?.data?.data || [];
+
+    const totalRequest = usePostBudget();
+    const totalRequestData = totalRequest?.data?.data || [];
+    const mapRequestBudget = totalRequestData.map((item)=> item.total);
+    console.log(mapRequestBudget)
+
+    const totalReimburse = usePostTotalReimburse();
+    const totalReimburseData = totalReimburse?.data?.data || [];
+    const mapReimburse = totalReimburseData.map((item)=> item.total);
+    console.log(mapReimburse)
+
     
-    const formattedBalance = balanceData.map((item) => {
+    const formattedBalance = totalPettyCash.map((item) => {
         const formattedItem = parseFloat(item.balance).toFixed(2);
         return formattedItem.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       });
-    
-      const formattedBudget = budgetData.map((item) => {
-        const formattedItem = parseFloat(item.balance).toFixed(2);
-        return formattedItem.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      });
+
+      const formatBudget = (budget) => {
+        const formattedBudget = Number(budget).toFixed(2);
+        const [integerPart, decimalPart] = formattedBudget.split('.');
+        const formattedIntegerPart = parseInt(integerPart).toLocaleString('en');
+        return `₱ ${formattedIntegerPart}.${decimalPart}`;
+      };
 
     useEffect(() => {
-        const handlePostBalance = async () => {
-          const requestBalance = {
-            employeeid: employee
-          };
-          await postBalance.mutateAsync(requestBalance);
-        };
-      
-        if (employee) {
-          handlePostBalance();
-        }
-      }, [employee]);
+            const handlePostBalance = async () => {
+            const requestBudget = {
+                employeeid: employee
+            };
+            await pettyCash.mutateAsync(requestBudget);
+            };
+        
+            if (employee) {
+            handlePostBalance();
+            }
+        }, [employee]);
 
-      useEffect(() => {
-        const handlePostBudget = async () => {
-          const requestBudget = {
-            employeeid: employee
-          };
-          await postBudget.mutateAsync(requestBudget);
-        };
-      
-        if (employee) {
-          handlePostBudget();
-        }
-      }, [employee]);
+    useEffect(() => {
+    const handlePostBudget = async () => {
+            const requestBudget = {
+                requestby: employee
+            };
+            await totalRequest.mutateAsync(requestBudget);
+            };
+            
+            if (employee) {
+                handlePostBudget();
+            }
+        }, [employee]);
 
-      console.log(formattedBalance)
-      
+    useEffect(() => {
+        const handlePostTotalReimburse = async () => {
+            const requestTotalReimburse = {
+                requestby: employee
+            };
+            await totalReimburse.mutateAsync(requestTotalReimburse);
+            };
+            
+            if (employee) {
+                handlePostTotalReimburse();
+            }
+        }, [employee]);
 
     const currentMonthReimburse = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
     const currentMonthReimburseData = [
@@ -85,7 +107,7 @@ export default function Index(){
                                 Total Request
                             </Card.Title>
                             <h2 className="white-text">
-                            ₱ {formattedBudget}
+                            {formatBudget(mapRequestBudget)}
                             </h2>
                         </Card.Body>
                     </Card>
@@ -97,7 +119,7 @@ export default function Index(){
                                 Total Reimburse
                             </Card.Title>
                             <h2 className="white-text">
-                            ₱ 20,000.00
+                            {formatBudget(mapReimburse)}
                             </h2>
                         </Card.Body>
                     </Card>

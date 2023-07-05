@@ -3,7 +3,7 @@ import { budgetAPI } from '../axios'
 
 export const postRequestBalance = async (requestBalance) => {
   const res = await budgetAPI.post('/budget/getbalance', requestBalance)
-  console.log(res.data.msg);
+  //console.log(res.data.msg);
   return res.data
 }
 

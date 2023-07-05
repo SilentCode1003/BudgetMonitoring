@@ -16,7 +16,7 @@ function Header() {
   const { logout } = useContext(UserContext);
   const navigate = useNavigate();
 
-  console.log(userData)
+  //console.log(userData)
   const handleLogout = () => {
     logout();
     Swal.fire({

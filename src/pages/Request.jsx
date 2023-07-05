@@ -15,14 +15,17 @@ const Request = () => {
   const { userData } = useContext(UserContext);
   const employee = userData && userData.employeeid;
   const postRequest = usePostRequest();
+  const responseData = postRequest?.data?.data || [];
   const concerns = useGetConcern()?.data?.data || [];
   const concernNames = concerns.map((item) => item.concernname);
   const client = useGetClientName()?.data?.data || [];
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
-  const responseData = postRequest?.data?.data || [];
+
+  //console.log(responseData.map((item) => item.status))
+  
   //console.log(btnFilter)
-  //console.log(employee)
+  console.log(responseData)
 
   useEffect(() => {
     const handlePostRequest = async () => {
@@ -37,7 +40,45 @@ const Request = () => {
     }
   }, [employee]);
 
+  const renderButtons = (status, requestId) => {
+    const handleApprove = () => {
+      console.log(`Request ${requestId} is approved.`);
+    };
+  
+    const handleReimburse = () => {
+      console.log(`Reimburse Request ${requestId}.`);
+    };
+  
+    const handleCheck = () => {
+      console.log(`Checking Request ${requestId}.`);
+    };
+  
+    switch (status) {
+      case 'APPROVED':
+        return (
+          <Button variant="outline-danger" onClick={handleApprove} disabled>
+            Approve
+          </Button>
+        );
+      case 'REQUEST BUDGET':
+        return (
+          <Button variant="outline-danger" onClick={handleReimburse}>
+            Reimburse
+          </Button>
+        );
+      case 'CHECKING':
+        return (
+          <Button variant="outline-danger" onClick={handleCheck}>
+            Check
+          </Button>
+        );
+      default:
+        return null;
+    }
+  };
+
   const formattedResponseData = responseData.map((item) => {
+    const actionButton = renderButtons(item.Status, item.RequestID);
     const details = JSON.parse(item.details);
     let formattedDetails = '';
     if (details.length <= 2) {
@@ -70,7 +111,6 @@ const Request = () => {
   });  
   
   //console.log(formattedResponseData);
-
   useEffect(() => {
     validateNumberInput();
   }, []);
@@ -129,10 +169,6 @@ const Request = () => {
 
   const handleClearRequestsClick = () => {
     handleClearRequests(setRequests);
-  };
-
-  const renderButtons = (row) => {
-    return <ReimburseBtn />;
   };
 
   return (
@@ -224,7 +260,12 @@ const Request = () => {
         />
       </Row>
       <div className="reimbursement-table">
-        <DynamicTable title="Reimbursement Table" header={tableHeader} data={formattedResponseData} renderButtons={renderButtons} />
+        <DynamicTable 
+          title="Reimbursement Table" 
+          header={tableHeader} 
+          data={formattedResponseData} 
+          renderButtons={renderButtons} 
+        />
       </div>
     </>
   );

@@ -3,7 +3,6 @@ import { budgetAPI } from '../axios'
 
 export const postRequestBudget = async (requestBudget) => {
   const res = await budgetAPI.post('/requestbudget/gettotalrequest', requestBudget)
-  console.log(res.data.msg);
   return res.data
 }
 
