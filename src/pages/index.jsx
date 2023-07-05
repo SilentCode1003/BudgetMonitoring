@@ -4,21 +4,28 @@ import { CDBDataTable } from "cdbreact";
 import DynamicTable from "../components/DynamicTable";
 import { UserContext } from "../components/userContext";
 import { usePostBalance } from "../API/submit/postBalance";
+import { usePostBudget } from "../API/submit/postBudget";
 
 export default function Index(){
     const { userData } = useContext(UserContext);
+    const employee = userData && userData.employeeid;
     const postBalance = usePostBalance();
     const balanceData = postBalance?.data?.data || [];
-    const balance = balanceData.map((item) => item.balance)
-    const employee = userData && userData.employeeid;
+    const postBudget = usePostBudget();
+    const budgetData = postBudget?.data?.data || [];
     
     const formattedBalance = balanceData.map((item) => {
         const formattedItem = parseFloat(item.balance).toFixed(2);
         return formattedItem.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       });
+    
+      const formattedBudget = budgetData.map((item) => {
+        const formattedItem = parseFloat(item.balance).toFixed(2);
+        return formattedItem.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      });
 
     useEffect(() => {
-        const handlePostRequest = async () => {
+        const handlePostBalance = async () => {
           const requestBalance = {
             employeeid: employee
           };
@@ -26,9 +33,23 @@ export default function Index(){
         };
       
         if (employee) {
-          handlePostRequest();
+          handlePostBalance();
         }
       }, [employee]);
+
+      useEffect(() => {
+        const handlePostBudget = async () => {
+          const requestBudget = {
+            employeeid: employee
+          };
+          await postBudget.mutateAsync(requestBudget);
+        };
+      
+        if (employee) {
+          handlePostBudget();
+        }
+      }, [employee]);
+
       console.log(formattedBalance)
       
 
@@ -64,7 +85,7 @@ export default function Index(){
                                 Total Request
                             </Card.Title>
                             <h2 className="white-text">
-                            ₱ 11,000.00
+                            ₱ {formattedBudget}
                             </h2>
                         </Card.Body>
                     </Card>
