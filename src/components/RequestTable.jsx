@@ -54,7 +54,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
       if (requestMsg.msg === 'notreimburse'){
         Swal.fire({
           title: 'Notice!',
-          text: 'Your request cannot be processed because you still have pending request.',
+          text: 'Because there is a pending budget request that has not been reimbursed, your request cannot be processed.',
           icon: 'warning',
           confirmButtonText: 'OK',
         })
