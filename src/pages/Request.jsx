@@ -40,38 +40,40 @@ const Request = () => {
     }
   }, [employee]);
 
-  const renderButtons = (status, requestId) => {
-    const handleApprove = () => {
-      console.log(`Request ${requestId} is approved.`);
-    };
-  
+  const renderButtons = (status, requestId) => {  
     const handleReimburse = () => {
       console.log(`Reimburse Request ${requestId}.`);
     };
-  
-    const handleCheck = () => {
-      console.log(`Checking Request ${requestId}.`);
+
+    const handleCancel = () => {
+      console.log(`Cancel Request ${requestId}.`);
     };
   
     switch (status) {
       case 'APPROVED':
         return (
-          <Button variant="outline-danger" onClick={handleApprove} disabled>
-            Approve
-          </Button>
-        );
-      case 'REQUEST BUDGET':
-        return (
           <Button variant="outline-danger" onClick={handleReimburse}>
             Reimburse
           </Button>
         );
-      case 'CHECKING':
+      case 'REQUEST BUDGET':
         return (
-          <Button variant="outline-danger" onClick={handleCheck}>
-            Check
+          <Button variant="outline-danger" onClick={handleCancel}>
+            Cancel
           </Button>
         );
+      case 'CHECKING':
+        return (
+          <i>Checking</i>
+        );
+      case 'REIMBURSED':
+        return(
+          <i>Request Reimbursed</i>
+        )
+      case 'DONE':
+        return(
+          <i>Request Done</i>
+        )
       default:
         return null;
     }
