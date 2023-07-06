@@ -1,24 +1,121 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import Dropdown from '../components/Dropdown';
-import RequestTable from '../components/Request-table';
+import RequestTable from '../components/RequestTable';
 import { handleAddRequest, handleRemoveRequest, handleClearRequests, validateNumberInput } from '../components/RequestFunctions';
 import DynamicTable from '../components/DynamicTable';
 import { useGetConcern } from '../API/request/getConcern';
 import { useGetClientName } from '../API/request/getStoreName';
 import { useGetIssue } from '../API/request/getIssue';
-import { useGetRequestBudget } from '../API/request/getRequestBudget';
-import Data from '../MOCK_DATA1.json';
+import { usePostRequest } from '../API/submit/postRequestBy';
 import ReimburseBtn from '../components/ReimburseBtn';
-
+import { UserContext } from '../components/userContext';
 const Request = () => {
-  const requestData = useGetRequestBudget()?.data?.data || [];
+  const { userData } = useContext(UserContext);
+  const employee = userData && userData.employeeid;
+  const postRequest = usePostRequest();
+  const responseData = postRequest?.data?.data || [];
   const concerns = useGetConcern()?.data?.data || [];
   const concernNames = concerns.map((item) => item.concernname);
   const client = useGetClientName()?.data?.data || [];
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
+
+  //console.log(responseData.map((item) => item.status))
+  
+  //console.log(btnFilter)
+  console.log(responseData)
+
+  useEffect(() => {
+    const handlePostRequest = async () => {
+      const requestData = {
+        requestby: employee
+      };
+      await postRequest.mutateAsync(requestData);
+    };
+  
+    if (employee) {
+      handlePostRequest();
+    }
+  }, [employee]);
+
+  const renderButtons = (status, requestId) => {  
+    const handleReimburse = () => {
+      console.log(`Reimburse Request ${requestId}.`);
+    };
+
+    const handleCancel = () => {
+      console.log(`Cancel Request ${requestId}.`);
+    };
+  
+    switch (status) {
+      case 'APPROVED':
+        return (
+          <Button variant="outline-danger" onClick={handleReimburse}>
+            Reimburse
+          </Button>
+        );
+      case 'REQUEST BUDGET':
+        return (
+          <Button variant="outline-danger" onClick={handleCancel}>
+            Cancel
+          </Button>
+        );
+      case 'CHECKING':
+        return (
+          <i>Checking</i>
+        );
+      case 'REIMBURSED':
+        return(
+          <i>Request Reimbursed</i>
+        )
+      case 'DONE':
+        return(
+          <i>Request Done</i>
+        )
+      default:
+        return null;
+    }
+  };
+
+  const formattedResponseData = responseData.map((item) => {
+    const actionButton = renderButtons(item.Status, item.RequestID);
+    const details = JSON.parse(item.details);
+    let formattedDetails = '';
+    if (details.length <= 2) {
+      formattedDetails = details.map((detail, index) => {
+        const { ticketid, storename, concern, issue } = detail;
+        return (
+          <div key={index}>
+            {ticketid}, {storename}, {concern}, {issue}
+          </div>
+        );
+      });
+    } else {
+      formattedDetails = details.map((detail, index) => {
+        const { ticketid, storename, concern, issue } = detail;
+        return (
+          <div key={index}> 
+            {index + 1}. {ticketid}, {storename}, {concern}, {issue}
+          </div>
+        );
+      });
+    }
+    return {
+      'Request ID': item.requestid,
+      'Request By': item.requestby,
+      'Request Date': item.requestdate,
+      Budget: item.budget,
+      Details: formattedDetails,
+      Status: item.status,
+    };
+  });  
+  
+  //console.log(formattedResponseData);
+  useEffect(() => {
+    validateNumberInput();
+  }, []);
 
   const tableHeader = ['Request ID', 'Request By', 'Request Date', 'Budget', 'Details', 'Status'];
 
@@ -68,10 +165,6 @@ const Request = () => {
     setTicketId('');
   };
 
-  useEffect(() => {
-    validateNumberInput();
-  }, []);
-
   const handleRemoveRequestClick = (index) => {
     handleRemoveRequest(index, requests, setRequests);
   };
@@ -80,13 +173,8 @@ const Request = () => {
     handleClearRequests(setRequests);
   };
 
-  const renderButtons = (row) => {
-    return <ReimburseBtn />;
-  };
-
   return (
     <>
-      <Header />
       <Row>
         <Col className="mt-4">
           <Card>
@@ -174,7 +262,12 @@ const Request = () => {
         />
       </Row>
       <div className="reimbursement-table">
-        <DynamicTable title="Reimbursement Table" header={tableHeader} data={requestData} renderButtons={renderButtons} />
+        <DynamicTable 
+          title="Reimbursement Table" 
+          header={tableHeader} 
+          data={formattedResponseData} 
+          renderButtons={renderButtons} 
+        />
       </div>
     </>
   );

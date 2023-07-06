@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { budgetAPI } from '../axios'
 
-export const postRequestData = async (requestData) => {
-  const res = await budgetAPI.post('/requestbudget/save', requestData)
-  console.log(res.data.msg);
+export const postRequestBalance = async (requestBalance) => {
+  const res = await budgetAPI.post('/budget/getbalance', requestBalance)
+  //console.log(res.data.msg);
   return res.data
 }
 
-export const usePostRequest = () => {
+export const usePostBalance = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (requestData) => postRequestData(requestData),
+    mutationFn: (requestBalance) => postRequestBalance(requestBalance),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ['request'] }),
   })

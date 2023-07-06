@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import _isEqual from 'lodash/isEqual';
 import '../assets/CustomDropdown.css';
 
 const Dropdown = ({ options, defaultOption, value, setValue }) => {
@@ -6,10 +7,6 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  useEffect(() => {
-    setFilteredOptions(options);
-  }, [options]);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -44,7 +41,8 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
     setIsOpen(false);
   };
 
-  const shouldScroll = filteredOptions.length >= 10; 
+  const shouldScroll = filteredOptions.length >= 10;
+
   return (
     <div className="dropdown mt-2" ref={dropdownRef}>
       <button

@@ -63,7 +63,7 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
                     />
                   </div>
                 </Col>
-              </Row>
+                </Row>
               <div className="table-container">
                 <div className="table-scroll-container">
                   <Table striped>
@@ -71,23 +71,24 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
                       {header.map((_, index) => (
                         <col key={index} style={{ maxWidth: '200px' }} />
                       ))}
-                      {renderButtons && <col style={{ maxWidth: '100px' }} />}
                     </colgroup>
                     <thead>
                       <tr>
                         {header.map((column, index) => (
                           <th key={index}>{column}</th>
                         ))}
-                        {renderButtons && <th>Actions</th>}
+                        {renderButtons && <th>Action</th>}
                       </tr>
                     </thead>
                     <tbody>
                       {currentData.map((row, rowIndex) => (
                         <tr key={rowIndex}>
-                          {Object.values(row).map((value, columnIndex) => (
-                            <td key={columnIndex}>{value}</td>
+                          {Object.keys(row).map((key, columnIndex) => (
+                            <td key={columnIndex}>{row[key]}</td>
                           ))}
-                          {renderButtons && <td>{renderButtons(row)}</td>}
+                          {renderButtons && (
+                            <td>{renderButtons(row['Status'], row['Request ID'])}</td>
+                          )}
                         </tr>
                       ))}
                     </tbody>

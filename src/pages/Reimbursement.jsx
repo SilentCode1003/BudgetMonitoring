@@ -8,7 +8,6 @@ import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } f
 import DynamicTable from '../components/DynamicTable';
 import Data from '../MOCK_DATA2.json';
 import { useGetConcern } from '../API/request/getConcern';
-import ReimburseCancelBtn from '../components/ReimburseCancelBtn';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 
 const Reimbursement = () => {
@@ -61,14 +60,12 @@ const Reimbursement = () => {
     return(
       <>
         <ReimburseEditBtn></ReimburseEditBtn>
-        <ReimburseCancelBtn></ReimburseCancelBtn>
       </>
     );
   }
 
   return (
     <>
-      <Header />
         <Row>
           <Col  md={5} className="mt-4">
             <Card>

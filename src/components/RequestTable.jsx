@@ -1,12 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { usePostRequest } from '../API/submit/postRequest';
+import { UserContext } from './userContext';
 
 export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
   const tableRef = useRef(null);
   const postRequest = usePostRequest();
-//  console.log(requests);
+  const postRequestMsg = postRequest.map
+  const { userData } = useContext(UserContext);
+  const employeeID = (userData && userData.employeeid);
+
   useEffect(() => {
     adjustTableHeight();
     window.addEventListener('resize', adjustTableHeight);
@@ -43,15 +47,25 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
       requestby: requestedBy,
       details: JSON.stringify(formattedRequests),
     };
-    
-    console.log(requestData);
+
+    //console.log(requestData);
     try {
-      await postRequest.mutateAsync(requestData);
-      Swal.fire('Success', 'Request submitted successfully!', 'success');
-      setBudget('');
-      handleClearRequests();
+      const requestMsg = await postRequest.mutateAsync(requestData);
+      if (requestMsg.msg === 'notreimburse'){
+        Swal.fire({
+          title: 'Notice!',
+          text: 'Because there is a pending budget request that has not been reimbursed, your request cannot be processed.',
+          icon: 'warning',
+          confirmButtonText: 'OK',
+        })
+      }
     } catch (error) {
-      Swal.fire('Error', 'Failed to submit request!', 'error');
+      Swal.fire({
+        title: 'Success',
+        text: 'Request Successfuly Submitted.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      })
     }
   };
 
@@ -110,7 +124,7 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
               </Button>{' '}
               <Button
                 variant="outline-danger"
-                onClick={() => handleSubmitRequests('230621')}
+                onClick={() => handleSubmitRequests(employeeID)}
               >
                 Submit Requests
               </Button>
