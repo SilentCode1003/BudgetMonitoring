@@ -80,16 +80,18 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
   return (
     <>
       <Col className="mt-4">
-        <Card>
+        <div className="dynamic-title-card">
+          <Row>
+            <Col className='mt-2 mb-2'>
+              <Card.Title>Request Details</Card.Title>         
+            </Col>
+            <Col className='mt-2 mb-2'>
+              <h5 className='white-text'>Budget: {formatBudget(budget)}</h5>
+            </Col>
+          </Row>
+        </div>
+        <Card className='dynamic-card request-card-height'>
           <Card.Body className="request-table">
-            <Row>
-              <Col>
-               <Card.Title>Request Details</Card.Title>         
-              </Col>
-              <Col>
-                <h5 className='white-text'>Budget: {formatBudget(budget)}</h5>
-              </Col>
-            </Row>
             <div className="table-wrapper" ref={tableRef}>
               <Table striped>
                 <thead>

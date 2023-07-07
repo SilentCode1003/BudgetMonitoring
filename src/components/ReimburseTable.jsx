@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Col, Card, Table, Button } from 'react-bootstrap';
+import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 
 export default function ReimburseTable({ reimburse, handleClearReimburse, handleRemoveReimburse }) {
   const tableRef = useRef(null);
@@ -25,9 +25,15 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
   return (
     <>
       <Col className="mt-4">
-        <Card>
+        <div className="dynamic-title-card">
+          <Row>
+            <Col className='mt-2 mb-2'>
+              <Card.Title>Reimburse Details</Card.Title>
+            </Col>
+          </Row>
+        </div>
+        <Card className='dynamic-card reimburse-card-height'>
           <Card.Body className="Reimburse-table">
-            <Card.Title>Reimburse Details</Card.Title>
             <div className="table-wrapper-1" ref={tableRef}>
               <Table striped>
                 <thead>

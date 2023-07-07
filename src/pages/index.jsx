@@ -86,39 +86,51 @@ export default function Index(){
         { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active'},
     ];
     return(
-        <>
+        <> 
             <Row className="mt-3">
                 <Col md={4} className="dashboard-card-container">
+                    <div className="dynamic-title-card">
+                        <Row>
+                            <Col className='mt-2 mb-2' >
+                            <Card.Title>On-hand/Petty Cash</Card.Title>
+                            </Col>
+                        </Row>
+                    </div>
                     <Card>
                         <Card.Body>
-                            <Card.Title className="dashboard-text">
-                                On-hand/Petty Cash
-                            </Card.Title>
-                            <h2 className="white-text">
-                            ₱ {formattedBalance}
+                            <h2>
+                                ₱ {formattedBalance}
                             </h2>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col md={4} className="dashboard-card-container">
+                    <div className="dynamic-title-card">
+                        <Row>
+                            <Col className='mt-2 mb-2' >
+                            <Card.Title>Total Request</Card.Title>
+                            </Col>
+                        </Row>
+                    </div>
                     <Card>
                         <Card.Body>
-                            <Card.Title className="dashboard-text">
-                                Total Request
-                            </Card.Title>
-                            <h2 className="white-text">
-                            {formatBudget(mapRequestBudget)}
+                            <h2>
+                                {formatBudget(mapRequestBudget)}
                             </h2>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col md={4} className="dashboard-card-container">
+                    <div className="dynamic-title-card">
+                        <Row>
+                            <Col className='mt-2 mb-2' >
+                            <Card.Title>Total Reimbursed</Card.Title>
+                            </Col>
+                        </Row>
+                    </div>
                     <Card>
                         <Card.Body>
-                            <Card.Title className="dashboard-text">
-                                Total Reimburse
-                            </Card.Title>
-                            <h2 className="white-text">
+                            <h2>
                             {formatBudget(mapReimburse)}
                             </h2>
                         </Card.Body>

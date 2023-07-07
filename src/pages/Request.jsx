@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import Dropdown from '../components/Dropdown';
+import { useNavigate } from 'react-router-dom';
 import RequestTable from '../components/RequestTable';
 import { handleAddRequest, handleRemoveRequest, handleClearRequests, validateNumberInput } from '../components/RequestFunctions';
 import DynamicTable from '../components/DynamicTable';
@@ -11,6 +12,7 @@ import { useGetIssue } from '../API/request/getIssue';
 import { usePostRequest } from '../API/submit/postRequestBy';
 import ReimburseBtn from '../components/ReimburseBtn';
 import { UserContext } from '../components/userContext';
+
 const Request = () => {
   const { userData } = useContext(UserContext);
   const employee = userData && userData.employeeid;
@@ -21,6 +23,7 @@ const Request = () => {
   const client = useGetClientName()?.data?.data || [];
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
+  const navigate = useNavigate();
 
   //console.log(responseData.map((item) => item.status))
   
@@ -43,6 +46,7 @@ const Request = () => {
   const renderButtons = (status, requestId) => {  
     const handleReimburse = () => {
       console.log(`Reimburse Request ${requestId}.`);
+      navigate('/Reimbursement');
     };
 
     const handleCancel = () => {
@@ -52,13 +56,13 @@ const Request = () => {
     switch (status) {
       case 'APPROVED':
         return (
-          <Button variant="outline-danger" onClick={handleReimburse}>
+          <Button variant="outline-danger w-100" onClick={handleReimburse}>
             Reimburse
           </Button>
         );
       case 'REQUEST BUDGET':
         return (
-          <Button variant="outline-danger" onClick={handleCancel}>
+          <Button variant="outline-danger w-100" onClick={handleCancel}>
             Cancel
           </Button>
         );
@@ -177,9 +181,15 @@ const Request = () => {
     <>
       <Row>
         <Col className="mt-4">
-          <Card>
+          <div className="dynamic-title-card">
+            <Row>
+              <Col className='mt-2 mb-2' >
+                <Card.Title>Budget</Card.Title>
+              </Col>
+            </Row>
+          </div>
+          <Card className='dynamic-card'>
             <Card.Body>
-              <Card.Title>Budget</Card.Title>
               <Form className="justify-content-center">
                 <Form.Group>
                   <Form.Control
@@ -194,9 +204,16 @@ const Request = () => {
               </Form>
             </Card.Body>
           </Card>
-          <Card className="mt-2">
+
+          <div className="dynamic-title-card mt-2">
+            <Row>
+              <Col className='mt-2 mb-2' >
+                <Card.Title>Store</Card.Title>
+              </Col>
+            </Row>
+          </div>
+          <Card className='dynamic-card'>
             <Card.Body>
-              <Card.Title>Store</Card.Title>
               <Form.Control
                 className="number-validator"
                 id="ticketID"

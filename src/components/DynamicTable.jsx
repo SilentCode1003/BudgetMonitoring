@@ -47,23 +47,25 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
     <>
       <Row className="mt-3">
         <Col>
-          <Card>
+          <div className="dynamic-title-card">
+            <Row>
+              <Col md={6} className='mt-3 '>
+                <Card.Title>{title}</Card.Title>
+              </Col>
+              <Col md={6}>
+                <div className='mt-2 mb-2'>
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <Card className='dynamic-card'>
             <Card.Body>
-              <Row>
-                <Col md={6}>
-                  <Card.Title>{title}</Card.Title>
-                </Col>
-                <Col md={6}>
-                  <div className="mb-3">
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      value={searchTerm}
-                      onChange={handleSearch}
-                    />
-                  </div>
-                </Col>
-                </Row>
               <div className="table-container">
                 <div className="table-scroll-container">
                   <Table striped>
