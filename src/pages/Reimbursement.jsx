@@ -68,9 +68,15 @@ const Reimbursement = () => {
     <>
         <Row>
           <Col  md={5} className="mt-4">
+            <div className="dynamic-title-card">
+              <Row>
+                <Col className='mt-2 mb-2' >
+                  <Card.Title>Reimbursement</Card.Title>
+                </Col>
+              </Row>
+            </div>
             <Card>
               <Card.Body>
-                <Card.Title>Reimbursement</Card.Title>
                 <Dropdown
                   options={locationDropdown}
                   defaultOption="-- Select Location --"
