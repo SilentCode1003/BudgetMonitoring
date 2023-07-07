@@ -159,6 +159,10 @@ input {
   border-color: var(--clr-btn);
 }
 
+tr:hover{
+  background-color: #b0bdc4 !important;
+}
+
 .btn-div{
   display: block;
   text-align: center;

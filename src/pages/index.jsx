@@ -96,7 +96,7 @@ export default function Index(){
                             </Col>
                         </Row>
                     </div>
-                    <Card>
+                    <Card className="dynamic-card">
                         <Card.Body>
                             <h2>
                                 ₱ {formattedBalance}
@@ -112,7 +112,7 @@ export default function Index(){
                             </Col>
                         </Row>
                     </div>
-                    <Card>
+                    <Card className="dynamic-card">
                         <Card.Body>
                             <h2>
                                 {formatBudget(mapRequestBudget)}
@@ -128,7 +128,7 @@ export default function Index(){
                             </Col>
                         </Row>
                     </div>
-                    <Card>
+                    <Card className="dynamic-card">
                         <Card.Body>
                             <h2>
                             {formatBudget(mapReimburse)}

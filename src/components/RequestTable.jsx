@@ -95,13 +95,11 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
             <div className="table-wrapper" ref={tableRef}>
               <Table striped>
                 <thead>
-                  <tr>
-                    <th>Ticket ID</th>
-                    <th>Store Name</th>
-                    <th>Concern</th>
-                    <th>Issue</th>
-                    <th>Action</th>
-                  </tr>
+                  <th>Ticket ID</th>
+                  <th>Store Name</th>
+                  <th>Concern</th>
+                  <th>Issue</th>
+                  <th>Action</th>
                 </thead>
                 <tbody>
                   {requests.map((request, index) => (
