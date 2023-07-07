@@ -95,26 +95,34 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
             <div className="table-wrapper" ref={tableRef}>
               <Table striped>
                 <thead>
-                  <th>Ticket ID</th>
-                  <th>Store Name</th>
-                  <th>Concern</th>
-                  <th>Issue</th>
-                  <th>Action</th>
+                  <tr>
+                    <th>Ticket ID</th>
+                    <th>Store Name</th>
+                    <th>Concern</th>
+                    <th>Issue</th>
+                    <th>Action</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  {requests.map((request, index) => (
-                    <tr key={index}>
-                      <td>{`SR-${request.ticketId}`}</td>
-                      <td>{request.store}</td>
-                      <td>{request.concern}</td>
-                      <td>{request.issue}</td>
-                      <td>
-                        <Button variant="outline-danger" onClick={() => handleRemoveRequest(index)}>
-                          Remove
-                        </Button>
-                      </td>
+                  {requests.length === 0 ? (
+                    <tr>
+                      <td colSpan="5">There's no current request</td>
                     </tr>
-                  ))}
+                  ) : (
+                    requests.map((request, index) => (
+                      <tr key={index}>
+                        <td>{`SR-${request.ticketId}`}</td>
+                        <td>{request.store}</td>
+                        <td>{request.concern}</td>
+                        <td>{request.issue}</td>
+                        <td>
+                          <Button variant="outline-danger" onClick={() => handleRemoveRequest(index)}>
+                            Remove
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             </div>

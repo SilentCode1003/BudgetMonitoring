@@ -303,8 +303,8 @@ th{
   border-radius: 0.375rem !important;
 }
 
-.table-wrapper thead{
- background-color: var(--bms-card-clr);
+.table-wrapper thead tr{
+ background-color: var(--bms-card-clr) !important;
 }
 
 .reimburse-card-height{
@@ -318,8 +318,8 @@ th{
   border-radius: 0.375rem !important;
 }
 
-.table-wrapper-1 thead{
-  background-color: var(--bms-card-clr);
+.table-wrapper-1 thead tr{
+  background-color: var(--bms-card-clr) !important;
 }
 
 th, td{
