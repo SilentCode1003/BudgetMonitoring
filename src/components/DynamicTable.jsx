@@ -83,16 +83,20 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentData.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                          {Object.keys(row).map((key, columnIndex) => (
-                            <td key={columnIndex}>{row[key]}</td>
-                          ))}
-                          {renderButtons && (
-                            <td>{renderButtons(row['Status'], row['Request ID'])}</td>
-                          )}
+                      {currentData.length === 0 ? (
+                        <tr>
+                          <td colSpan={header.length + (renderButtons ? 1 : 0)}>There's no data to display</td>
                         </tr>
-                      ))}
+                      ) : (
+                        currentData.map((row, rowIndex) => (
+                          <tr key={rowIndex}>
+                            {Object.keys(row).map((key, columnIndex) => (
+                              <td key={columnIndex}>{row[key]}</td>
+                            ))}
+                            {renderButtons && <td>{renderButtons(row['Status'], row['Request ID'])}</td>}
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </Table>
                 </div>
