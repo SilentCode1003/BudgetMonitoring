@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import _isEqual from 'lodash/isEqual';
 import '../assets/style.css';
 
 const Dropdown = ({ options, defaultOption, value, setValue }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
-  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -22,45 +21,40 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
     };
   }, []);
 
-  const handleSearch = (event) => {
-    const searchTerm = event.target.value.toLowerCase();
-    setSearchTerm(searchTerm);
-
-    const filteredOptions = options.filter((option) =>
-      option.toLowerCase().includes(searchTerm)
-    );
-    setFilteredOptions(filteredOptions);
-  };
-
   const handleToggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    setValue(inputValue);
+
+    const filteredOptions = options.filter((option) =>
+      option.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    setFilteredOptions(filteredOptions);
   };
 
   const handleOptionClick = (option) => {
     setValue(option);
     setIsOpen(false);
+    setFilteredOptions(options);
   };
 
   const shouldScroll = filteredOptions.length >= 10;
 
   return (
     <div className="dropdown mt-2" ref={dropdownRef}>
-      <button
-        className="btn dropdown-btn dropdown-toggle w-100"
-        type="button"
+      <input
+        className="form-control dropdown-input w-100 dropdown-btn text-center dropdown-toggle"
+        type="text"
+        placeholder={defaultOption}
+        value={value}
+        onChange={handleInputChange}
         onClick={handleToggleDropdown}
-      >
-        {value || defaultOption}
-      </button>
+      />
       {isOpen && (
         <div className={`dropdown-menu show ${shouldScroll ? 'scrollable' : ''}`}>
-          <input
-            type="text"
-            className="form-control dropdown-search"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
           <div className="dropdown-options">
             {filteredOptions.map((option, index) => (
               <button

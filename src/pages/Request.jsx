@@ -229,7 +229,7 @@ const Request = () => {
                   setValue={setStoreDropdownValue}
                 />
               ) : (
-                <button className="btn-primary w-100 dropdown-display" disabled>
+                <button className="btn-primary w-100 dropdown-display mt-2" disabled>
                   No Store Name Available
                 </button>
               )}

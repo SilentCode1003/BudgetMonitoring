@@ -24,7 +24,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
 
   return (
     <>
-      <Col className="mt-4">
+      <Col className="mt-3">
         <div className="dynamic-title-card">
           <Row>
             <Col className='mt-2 mb-2'>
@@ -41,7 +41,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
                     <th>Location</th>
                     <th>Origin</th>
                     <th>Destination</th>
-                    <th>Mode of Transaction</th>
+                    <th>Mode of Transportation</th>
                     <th>Action</th>
                   </tr>
                 </thead>
