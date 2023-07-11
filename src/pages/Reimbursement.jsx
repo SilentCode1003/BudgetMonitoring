@@ -4,6 +4,7 @@ import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
 import { useGetLocation } from '../API/request/getLocation';
+import { useGetOrigin } from '../API/request/getOrigin';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 import DropdownInput from '../components/Dropdown-input';
 import Dropdown from '../components/Dropdown';
@@ -17,6 +18,10 @@ const Reimbursement = () => {
 
   const getLocation = useGetLocation()?.data?.data || [];
   const filterLocationNames = getLocation.map((item) => item.locationname);
+
+  const getOrigin = useGetOrigin()?.data?.data || [];
+  const filterOrigin = getOrigin.map((item) => item.origin)
+  console.log(filterOrigin);
   const tester = [];
 
   const [locationDropdownValue, setLocationDropdownValue] = useState('');
@@ -91,12 +96,18 @@ const Reimbursement = () => {
                   No Location Available
                 </button>
               )}
-              <Dropdown
-                options={originDropdown}
-                defaultOption="-- Select Origin --"
-                value={originDropdownValue}
-                setValue={setOriginDropdownValue}
-              />
+              {filterOrigin.length > 0?(
+                <Dropdown
+                  options={filterOrigin}
+                  defaultOption="-- Select Origin --"
+                  value={originDropdownValue}
+                  setValue={setOriginDropdownValue}
+                />
+              ):(
+                <button className="btn-primary w-100 dropdown-display mt-2" disabled>
+                No Origin Available
+              </button>
+              )}
               <DropdownInput
                 options={destinationDropdown}
                 defaultOption="-- Select/Input Destination --"
