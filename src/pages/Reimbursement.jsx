@@ -5,6 +5,7 @@ import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
 import { useGetLocation } from '../API/request/getLocation';
 import { useGetOrigin } from '../API/request/getOrigin';
+import { usePostDestination } from '../API/submit/postDestination';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 import DropdownInput from '../components/Dropdown-input';
 import Dropdown from '../components/Dropdown';
@@ -29,8 +30,7 @@ const Reimbursement = () => {
   const [destinationDropdownValue, setDestinationDropdownValue] = useState('');
   const [modeTransportationDropdownValue, setModeTransportationDropdownValue] = useState('');
   const [reimburse, setReimburse] = useState([]);
-
-  const originDropdown = ['Manila', 'Cavite', 'Batangas', 'Quezon'];
+  
   const destinationDropdown = ['Lucena', 'Buenavista', 'Gumaca', 'Sta. Rosa', 'Pacita', 'Galleria', 'Caloocan', 'Lopez','Sta. Rosa', 'Pacita', 'Galleria', 'Caloocan', 'Lopez', ];
   const modeTransportationDropdown = ['Bus', 'Jeep', 'Van'];
 

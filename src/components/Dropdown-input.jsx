@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../assets/style.css';
 
-const Dropdown = ({ options, defaultOption, value, setValue }) => {
+const DropdownInput = ({ options, defaultOption, value, setValue }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
@@ -17,7 +17,7 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
     document.addEventListener('click', handleOutsideClick);
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener('c lick', handleOutsideClick);
     };
   }, []);
 
@@ -73,4 +73,4 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
   );
 };
 
-export default Dropdown;
+export default DropdownInput;

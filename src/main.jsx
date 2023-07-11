@@ -9,6 +9,7 @@ import Reimbursement from './pages/Reimbursement.jsx';
 import Login from './pages/login.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header.jsx';
+import MyComponent from './pages/Tester.jsx';
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/Reimbursement" element={<Reimbursement />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Index" element={<Index />} />
+          <Route path="/Tester" element={<MyComponent />} />
         </Routes>
       </UserProvider>
     </QueryClientProvider>
