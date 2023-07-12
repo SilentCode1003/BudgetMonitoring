@@ -6,17 +6,20 @@ export const handleAddReimbursement = (
   destinationDropdownValue,
   modeTransportationDropdownValue,
   reimburse,
+  totalPrice,
   setReimburse,
   setLocationDropdownValue,
   setOriginDropdownValue,
   setDestinationDropdownValue,
   setModeTransportationDropdownValue,
+  setTotalPrice
 ) => {
   if (
     locationDropdownValue === '' ||
     originDropdownValue === '' ||
     destinationDropdownValue === '' ||
-    modeTransportationDropdownValue === ''
+    modeTransportationDropdownValue === '' ||
+    totalPrice === ''
   ) {
     Swal.fire({
       title: 'Invalid Input',
@@ -31,7 +34,8 @@ export const handleAddReimbursement = (
       reimburse.location === locationDropdownValue &&
       reimburse.origin === originDropdownValue &&
       reimburse.destination === destinationDropdownValue &&
-      reimburse.modeTransaction === modeTransportationDropdownValue
+      reimburse.modeTransaction === modeTransportationDropdownValue &&
+      reimburse.price === totalPrice
   );
 
   if (isDuplicate) {
@@ -48,6 +52,7 @@ export const handleAddReimbursement = (
     origin: originDropdownValue,
     destination: destinationDropdownValue,
     modeTransaction: modeTransportationDropdownValue,
+    price: totalPrice
   };
 
   setReimburse([...reimburse, newReimburse]);

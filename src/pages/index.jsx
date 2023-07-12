@@ -6,6 +6,7 @@ import { UserContext } from "../components/userContext";
 import { usePostBalance } from "../API/submit/postPettyCash";
 import { usePostBudget } from "../API/submit/postTotalRequest";
 import { usePostTotalReimburse } from "../API/submit/postTotalReimburse";
+import { formatBudget } from "../repository/helper";
 
 export default function Index(){
     const { userData } = useContext(UserContext);
@@ -28,13 +29,6 @@ export default function Index(){
         const formattedItem = parseFloat(item.balance).toFixed(2);
         return formattedItem.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       });
-
-      const formatBudget = (budget) => {
-        const formattedBudget = Number(budget).toFixed(2);
-        const [integerPart, decimalPart] = formattedBudget.split('.');
-        const formattedIntegerPart = parseInt(integerPart).toLocaleString('en');
-        return `₱ ${formattedIntegerPart}.${decimalPart}`;
-      };
 
     useEffect(() => {
         const handlePostBalance = async () => {

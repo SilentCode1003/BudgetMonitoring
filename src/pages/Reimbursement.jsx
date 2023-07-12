@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
 import { useGetLocation } from '../API/request/getLocation';
 import { useGetOrigin } from '../API/request/getOrigin';
-import { usePostDestination } from '../API/submit/postDestination';
 import { useGetTransportation } from '../API/request/getTransportation';
+import { usePostDestination } from '../API/submit/postDestination';
+import { usePostTranportationPrice } from '../API/submit/postPriceTranportation';
+import { formatBudget } from '../repository/helper';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 import DropdownInput from '../components/Dropdown-input';
 import Dropdown from '../components/Dropdown';
@@ -19,8 +20,10 @@ const Reimbursement = () => {
   const [originDropdownValue, setOriginDropdownValue] = useState('');
   const [destinationDropdownValue, setDestinationDropdownValue] = useState('');
   const [modeTransportationDropdownValue, setModeTransportationDropdownValue] = useState('');
+  const [totalPrice, setTotalPrice] = useState('');
+  const [isPriceDisabled, setIsPriceDisabled] = useState(totalPrice !== '' && parseFloat(totalPrice) > 0);
   const [reimburse, setReimburse] = useState([]);
-
+  
   const { mutate, isLoading: isDestinationLoading, isError: isDestinationError, data: destinationData, error: destinationError } = usePostDestination();
 
   const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status'];
@@ -30,20 +33,45 @@ const Reimbursement = () => {
   const filterLocationNames = getLocation.map((item) => item.locationname);
 
   const getOrigin = useGetOrigin()?.data?.data || [];
-  const filterOrigin = getOrigin.map((item) => item.origin)
-  //console.log(filterOrigin);
-  const tester = [];
+  const filterOrigin = getOrigin.map((item) => item.origin);
 
   const filterDestination = destinationData?.data || [];
   const destination = filterDestination.map((item) => item.destination);
-  //console.log(destination);
 
   const getTransportation = useGetTransportation()?.data?.data || [];
   const filterTransportation = getTransportation.map((item) => item.transportationname);
-  console.log(filterTransportation)
+
+  const postTransportationPrice = usePostTranportationPrice();
+  const getTransportationPrice = postTransportationPrice?.data?.data || [];
+  const filterTransportationPrice = getTransportationPrice.map((item) => item.currentprice);
+  //console.log(postTransportationPrice)
+  //console.log(getTransportationPrice)
+  console.log(filterTransportationPrice)
 
   useEffect(() => {
-    const handPostDestination = async () => {
+    setTotalPrice('');
+  }, [destinationDropdownValue]);
+
+  useEffect(() => {
+    setTotalPrice('');
+  }, [locationDropdownValue, originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);  
+
+  useEffect(() => {
+    if (filterTransportationPrice.length > 0 && parseFloat(filterTransportationPrice[0]) > 0) {
+      setIsPriceDisabled(true);
+    } else {
+      setIsPriceDisabled(false);
+    }
+  }, [filterTransportationPrice, modeTransportationDropdownValue]);
+  
+  useEffect(() => {
+    if (filterTransportationPrice.length > 0) {
+      setTotalPrice(formatBudget(filterTransportationPrice[0]));
+    }
+  }, [filterTransportationPrice]);
+
+  useEffect(() => {
+    const handlePostDestination = async () => {
       const origin = {
         origin: originDropdownValue,
       };
@@ -52,13 +80,26 @@ const Reimbursement = () => {
     };
 
     if (originDropdownValue) {
-      handPostDestination();
+      handlePostDestination();
     }
   }, [originDropdownValue, mutate]);
-  
-  const destinationDropdown = ['Lucena', 'Buenavista', 'Gumaca', 'Sta. Rosa', 'Pacita', 'Galleria', 'Caloocan', 'Lopez','Sta. Rosa', 'Pacita', 'Galleria', 'Caloocan', 'Lopez', ];
-  const modeTransportationDropdown = ['Bus', 'Jeep', 'Van'];
 
+  useEffect(() => {
+    const handlePostPriceTransportation = async () => {
+      console.log(originDropdownValue);
+      const payload = {
+        origin: originDropdownValue,
+        destination: destinationDropdownValue,
+        transportation: modeTransportationDropdownValue,
+      };
+      await postTransportationPrice.mutateAsync(payload);
+    };
+  
+    if (originDropdownValue && destinationDropdownValue && modeTransportationDropdownValue) {
+      handlePostPriceTransportation();
+    }
+  }, [originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);
+  
   const handleAddReimbursementClick = () => {
     handleAddReimbursement(
       locationDropdownValue,
@@ -66,11 +107,13 @@ const Reimbursement = () => {
       destinationDropdownValue,
       modeTransportationDropdownValue,
       reimburse,
+      totalPrice,
       setReimburse,
       setLocationDropdownValue,
       setOriginDropdownValue,
       setDestinationDropdownValue,
       setModeTransportationDropdownValue,
+      setTotalPrice
     );
   };
 
@@ -155,10 +198,23 @@ const Reimbursement = () => {
                   No Origin Available
                 </button>
               )}
-
               <Form className="justify-content-center mt-2">
                 <Form.Group>
-                  <Form.Control className='number-validator' id="#" placeholder="Enter Price" />
+                <Form.Control
+  className='number-validator'
+  id="totalPrice"
+  placeholder="Enter Price"
+  value={totalPrice}
+  onChange={(e) => {
+    if (isPriceDisabled) {
+      setTotalPrice('');
+    } else {
+      setTotalPrice(e.target.value);
+    }
+  }}
+  disabled={isPriceDisabled}
+/>
+
                 </Form.Group>
               </Form>
               <div className="button-container d-flex justify-content-end mt-2">

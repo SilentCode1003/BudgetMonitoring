@@ -30,6 +30,9 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
             <Col className='mt-2 mb-2'>
               <Card.Title>Reimburse Details</Card.Title>
             </Col>
+            <Col className='mt-2 mb-2'>
+              <h5 className='white-text'>Total Price: {}</h5>
+            </Col>
           </Row>
         </div>
         <Card className='dynamic-card reimburse-card-height'>
