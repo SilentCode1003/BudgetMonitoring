@@ -14,6 +14,14 @@ import DynamicTable from '../components/DynamicTable';
 import Data from '../MOCK_DATA2.json';
 
 const Reimbursement = () => {
+  const [locationDropdownValue, setLocationDropdownValue] = useState('');
+  const [originDropdownValue, setOriginDropdownValue] = useState('');
+  const [destinationDropdownValue, setDestinationDropdownValue] = useState('');
+  const [modeTransportationDropdownValue, setModeTransportationDropdownValue] = useState('');
+  const [reimburse, setReimburse] = useState([]);
+
+  const { mutate, isLoading: isDestinationLoading, isError: isDestinationError, data: destinationData, error: destinationError } = usePostDestination();
+
   const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status'];
   const tableData = Data;
 
@@ -25,11 +33,23 @@ const Reimbursement = () => {
   console.log(filterOrigin);
   const tester = [];
 
-  const [locationDropdownValue, setLocationDropdownValue] = useState('');
-  const [originDropdownValue, setOriginDropdownValue] = useState('');
-  const [destinationDropdownValue, setDestinationDropdownValue] = useState('');
-  const [modeTransportationDropdownValue, setModeTransportationDropdownValue] = useState('');
-  const [reimburse, setReimburse] = useState([]);
+  const filterDestination = destinationData?.data || [];
+  const destination = filterDestination.map((item) => item.destination);
+  console.log(destination);
+
+  useEffect(() => {
+    const handPostDestination = async () => {
+      const origin = {
+        origin: originDropdownValue,
+      };
+      await mutate(origin);
+      setDestinationDropdownValue(''); 
+    };
+
+    if (originDropdownValue) {
+      handPostDestination();
+    }
+  }, [originDropdownValue, mutate]);
   
   const destinationDropdown = ['Lucena', 'Buenavista', 'Gumaca', 'Sta. Rosa', 'Pacita', 'Galleria', 'Caloocan', 'Lopez','Sta. Rosa', 'Pacita', 'Galleria', 'Caloocan', 'Lopez', ];
   const modeTransportationDropdown = ['Bus', 'Jeep', 'Van'];
@@ -108,12 +128,16 @@ const Reimbursement = () => {
                 No Origin Available
               </button>
               )}
-              <DropdownInput
-                options={destinationDropdown}
-                defaultOption="-- Select/Input Destination --"
-                value={destinationDropdownValue}
-                setValue={setDestinationDropdownValue}
-              />
+              {!isDestinationLoading && !isDestinationError && (
+                <div>
+                  <DropdownInput
+                    options={destination}
+                    defaultOption="--- Select/Input Destination ---"
+                    value={destinationDropdownValue}
+                    setValue={setDestinationDropdownValue}
+                  />
+                </div>
+              )}
               <Dropdown
                 options={modeTransportationDropdown}
                 defaultOption="-- Select Mode of Transportation --"

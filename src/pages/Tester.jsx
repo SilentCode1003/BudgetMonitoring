@@ -1,49 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import { useGetOrigin } from '../API/request/getOrigin';
+import { useState, useEffect } from 'react';
 import { usePostDestination } from '../API/submit/postDestination';
+import { useGetOrigin } from '../API/request/getOrigin';
+import Dropdown from '../components/Dropdown';
+import DropdownInput from '../components/Dropdown-input';
 
-const MyComponent = () => {
-  const [originOptions, setOriginOptions] = useState([]);
-  const [selectedOrigin, setSelectedOrigin] = useState('');
-  const [destinationOptions, setDestinationOptions] = useState([]);
-  
-  const getOriginData = useGetOrigin()?.data?.data || [];
-  
+function DestinationForm() {
+  const [destionationDropdownValue, setdestionationDropdownValue] = useState('');
+  const [originDropdownValue, setOriginDropdownValue] = useState('');
+
+  const { mutate, isLoading: isDestinationLoading, isError: isDestinationError, data: destinationData, error: destinationError } = usePostDestination();
+
+  const getOrigin = useGetOrigin()?.data?.data || [];
+  const filterOrigin = getOrigin.map((item) => item.origin);
+  console.log(filterOrigin);
+
+  const filterDestination = destinationData?.data || [];
+  const destination = filterDestination.map((item) => item.destination);
+  console.log(destination);
+
   useEffect(() => {
-    const filteredOrigins = getOriginData.map(item => item.origin);
-    setOriginOptions(filteredOrigins);
-  }, [getOriginData]);
-  
-  useEffect(() => {
+    const handPostDestination = async () => {
+      const origin = {
+        origin: originDropdownValue,
+      };
+      await mutate(origin);
+      setdestionationDropdownValue(''); 
+    };
 
-    if (selectedOrigin) {
-
-      const destinationData = usePostDestination(selectedOrigin)?.data?.data || [];
-      const filteredDestinations = destinationData.map(item => item.destination);
-      setDestinationOptions(filteredDestinations);
-    } else {
-      setDestinationOptions([]);
+    if (originDropdownValue) {
+      handPostDestination();
     }
-  }, [selectedOrigin]);
-  
-  const handleOriginChange = (event) => {
-    setSelectedOrigin(event.target.value);
-  };
-  
-  return (
-    <div>
-      <select value={selectedOrigin} onChange={handleOriginChange}>
-        {originOptions.map((origin, index) => (
-          <option key={index} value={origin}>{origin}</option>
-        ))}
-      </select>
-      <select>
-        {destinationOptions.map((destination, index) => (
-          <option key={index} value={destination}>{destination}</option>
-        ))}
-      </select>
-    </div>
-  );
-};
+  }, [originDropdownValue, mutate]);
 
-export default MyComponent;
+  return (
+    <>
+      {filterOrigin.length > 0 ? (
+        <Dropdown
+          options={filterOrigin}
+          defaultOption="-- Select Origin --"
+          value={originDropdownValue}
+          setValue={setOriginDropdownValue}
+        />
+      ) : (
+        <button className="btn-primary w-100 dropdown-display mt-2" disabled>
+          No Origin Available
+        </button>
+      )}
+      {!isDestinationLoading && !isDestinationError && (
+        <div>
+          <DropdownInput
+            options={destination}
+            defaultOption="--- Select Destination ---"
+            value={destionationDropdownValue}
+            setValue={setdestionationDropdownValue}
+          />
+        </div>
+      )}
+    </>
+  );
+}
+
+export default DestinationForm;

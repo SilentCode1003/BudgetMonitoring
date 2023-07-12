@@ -5,6 +5,7 @@ const DropdownInput = ({ options, defaultOption, value, setValue }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
+  const [isMatchedData, setIsMatchedData] = useState(true);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ const DropdownInput = ({ options, defaultOption, value, setValue }) => {
     document.addEventListener('click', handleOutsideClick);
 
     return () => {
-      document.removeEventListener('c lick', handleOutsideClick);
+      document.removeEventListener('click', handleOutsideClick);
     };
   }, []);
 
@@ -33,6 +34,7 @@ const DropdownInput = ({ options, defaultOption, value, setValue }) => {
       option.toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredOptions(filteredOptions);
+    setIsMatchedData(filteredOptions.length > 0);
   };
 
   const handleOptionClick = (option) => {
@@ -55,18 +57,22 @@ const DropdownInput = ({ options, defaultOption, value, setValue }) => {
       />
       {isOpen && (
         <div className={`dropdown-menu show ${shouldScroll ? 'scrollable' : ''}`}>
-          <div className="dropdown-options">
-            {filteredOptions.map((option, index) => (
-              <button
-                key={index}
-                className="dropdown-item"
-                type="button"
-                onClick={() => handleOptionClick(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
+          {isMatchedData ? (
+            <div className="dropdown-options">
+              {filteredOptions.map((option, index) => (
+                <button
+                  key={index}
+                  className="dropdown-item"
+                  type="button"
+                  onClick={() => handleOptionClick(option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center">No matched data</div>
+          )}
         </div>
       )}
     </div>

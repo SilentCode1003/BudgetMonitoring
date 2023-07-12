@@ -6,6 +6,7 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [isOpen, setIsOpen] = useState(false);
+  const [isMatchedData, setIsMatchedData] = useState(true);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -21,6 +22,10 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, []);
+
+  useEffect(() => {
+    setIsMatchedData(filteredOptions.length > 0)
+  }, [filteredOptions]);
 
   const handleSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();
@@ -61,18 +66,22 @@ const Dropdown = ({ options, defaultOption, value, setValue }) => {
             value={searchTerm}
             onChange={handleSearch}
           />
-          <div className="dropdown-options">
-            {filteredOptions.map((option, index) => (
-              <button
-                key={index}
-                className="dropdown-item"
-                type="button"
-                onClick={() => handleOptionClick(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
+          {isMatchedData ? (
+            <div className="dropdown-options">
+              {filteredOptions.map((option, index) => (
+                <button
+                  key={index}
+                  className="dropdown-item"
+                  type="button"
+                  onClick={() => handleOptionClick(option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center mt-2">No matched data</div>
+          )}
         </div>
       )}
     </div>

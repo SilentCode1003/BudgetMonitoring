@@ -2,9 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { budgetAPI } from '../axios'
 
 export const postDestination = async (origin) => {
+  console.log('Payload:', origin)
   const res = await budgetAPI.post('/route/getdestination', origin)
   return res.data
 }
+
 
 export const usePostDestination = () => {
   const queryClient = useQueryClient()
@@ -12,6 +14,6 @@ export const usePostDestination = () => {
   return useMutation({
     mutationFn: (origin) => postDestination(origin),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ['request'] }),
+      queryClient.invalidateQueries({ queryKey: ['destination'] }),
   })
 }
