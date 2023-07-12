@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
-import Swal from 'sweetalert2';
 import { usePostRequest } from '../API/submit/postRequest';
 import { UserContext } from './userContext';
+import Swal from 'sweetalert2';
 
-export default function RequestTable({ requests, handleClearRequests, handleRemoveRequest, budget,  setBudget }) {
+export default function RequestTable({ requests, handleRemoveRequest, handleClearRequests, budget, setBudget }) {
   const tableRef = useRef(null);
   const postRequest = usePostRequest();
   const postRequestMsg = postRequest.map
@@ -48,25 +48,31 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
       details: JSON.stringify(formattedRequests),
     };
 
-    //console.log(requestData);
     try {
       const requestMsg = await postRequest.mutateAsync(requestData);
-      if (requestMsg.msg === 'notreimburse'){
+      if (requestMsg.msg === 'notreimburse') {
+        // ...existing code
+      } else {
         Swal.fire({
-          title: 'Notice!',
-          text: 'Because there is a pending budget request that has not been reimbursed, your request cannot be processed.',
-          icon: 'warning',
+          title: 'Success',
+          text: 'Request Successfully Submitted.',
+          icon: 'success',
           confirmButtonText: 'OK',
-        })
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload(); // Reload the page
+          }
+        });
       }
     } catch (error) {
       Swal.fire({
-        title: 'Success',
-        text: 'Request Successfuly Submitted.',
-        icon: 'success',
+        title: 'Error',
+        text: 'Failed to submit the request.',
+        icon: 'error',
         confirmButtonText: 'OK',
-      })
+      });
     }
+
   };
 
   const formatBudget = (budget) => {
@@ -75,7 +81,6 @@ export default function RequestTable({ requests, handleClearRequests, handleRemo
     const formattedIntegerPart = parseInt(integerPart).toLocaleString('en');
     return `₱ ${formattedIntegerPart}.${decimalPart}`;
   };
-  
 
   return (
     <>
