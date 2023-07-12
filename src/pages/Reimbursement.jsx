@@ -6,6 +6,7 @@ import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } f
 import { useGetLocation } from '../API/request/getLocation';
 import { useGetOrigin } from '../API/request/getOrigin';
 import { usePostDestination } from '../API/submit/postDestination';
+import { useGetTransportation } from '../API/request/getTransportation';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 import DropdownInput from '../components/Dropdown-input';
 import Dropdown from '../components/Dropdown';
@@ -30,12 +31,16 @@ const Reimbursement = () => {
 
   const getOrigin = useGetOrigin()?.data?.data || [];
   const filterOrigin = getOrigin.map((item) => item.origin)
-  console.log(filterOrigin);
+  //console.log(filterOrigin);
   const tester = [];
 
   const filterDestination = destinationData?.data || [];
   const destination = filterDestination.map((item) => item.destination);
-  console.log(destination);
+  //console.log(destination);
+
+  const getTransportation = useGetTransportation()?.data?.data || [];
+  const filterTransportation = getTransportation.map((item) => item.transportationname);
+  console.log(filterTransportation)
 
   useEffect(() => {
     const handPostDestination = async () => {
@@ -138,12 +143,19 @@ const Reimbursement = () => {
                   />
                 </div>
               )}
-              <Dropdown
-                options={modeTransportationDropdown}
-                defaultOption="-- Select Mode of Transportation --"
-                value={modeTransportationDropdownValue}
-                setValue={setModeTransportationDropdownValue}
-              />
+              {filterTransportation.length > 0? (
+                  <Dropdown
+                  options={filterTransportation}
+                  defaultOption="-- Select Mode of Transportation --"
+                  value={modeTransportationDropdownValue}
+                  setValue={setModeTransportationDropdownValue}
+                  />
+              ):(
+                <button className="btn-primary w-100 dropdown-display mt-2" disabled>
+                  No Origin Available
+                </button>
+              )}
+
               <Form className="justify-content-center mt-2">
                 <Form.Group>
                   <Form.Control className='number-validator' id="#" placeholder="Enter Price" />
