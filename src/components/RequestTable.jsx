@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { usePostRequest } from '../API/submit/postRequest';
 import { UserContext } from './userContext';
+import { formatBudget } from '../repository/helper';
 import Swal from 'sweetalert2';
 
 export default function RequestTable({ requests, handleRemoveRequest, handleClearRequests, budget, setBudget }) {
@@ -10,6 +11,7 @@ export default function RequestTable({ requests, handleRemoveRequest, handleClea
   const postRequestMsg = postRequest.map
   const { userData } = useContext(UserContext);
   const employeeID = (userData && userData.employeeid);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     adjustTableHeight();
@@ -51,7 +53,12 @@ export default function RequestTable({ requests, handleRemoveRequest, handleClea
     try {
       const requestMsg = await postRequest.mutateAsync(requestData);
       if (requestMsg.msg === 'notreimburse') {
-        // ...existing code
+        Swal.fire({
+          title: 'Notice',
+          text: 'Because there is a pending budget request that has not been reimbursed, your request cannot be processed.',
+          icon: 'warning',
+          confirmButtonText: 'OK',
+        })
       } else {
         Swal.fire({
           title: 'Success',
@@ -60,7 +67,7 @@ export default function RequestTable({ requests, handleRemoveRequest, handleClea
           confirmButtonText: 'OK',
         }).then((result) => {
           if (result.isConfirmed) {
-            window.location.reload(); // Reload the page
+            window.location.reload();
           }
         });
       }
@@ -73,13 +80,6 @@ export default function RequestTable({ requests, handleRemoveRequest, handleClea
       });
     }
 
-  };
-
-  const formatBudget = (budget) => {
-    const formattedBudget = Number(budget).toFixed(2);
-    const [integerPart, decimalPart] = formattedBudget.split('.');
-    const formattedIntegerPart = parseInt(integerPart).toLocaleString('en');
-    return `₱ ${formattedIntegerPart}.${decimalPart}`;
   };
 
   return (
