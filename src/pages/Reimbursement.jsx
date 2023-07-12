@@ -53,13 +53,16 @@ const Reimbursement = () => {
   }, [destinationDropdownValue]);
 
   useEffect(() => {
+    setTotalPrice('');
+  }, [locationDropdownValue, originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);  
+
+  useEffect(() => {
     if (filterTransportationPrice.length > 0 && parseFloat(filterTransportationPrice[0]) > 0) {
       setIsPriceDisabled(true);
     } else {
       setIsPriceDisabled(false);
-      setTotalPrice('');
     }
-  }, [filterTransportationPrice]);  
+  }, [filterTransportationPrice, modeTransportationDropdownValue]);
   
   useEffect(() => {
     if (filterTransportationPrice.length > 0) {
@@ -197,16 +200,21 @@ const Reimbursement = () => {
               )}
               <Form className="justify-content-center mt-2">
                 <Form.Group>
-                  <Form.Control
-                    className='number-validator'
-                    id="totalPrice"
-                    placeholder="Enter Price"
-                    value={totalPrice}
-                    onChange={(e) => {
-                      setTotalPrice(e.target.value);
-                    }}
-                    disabled={isPriceDisabled}
-                  />
+                <Form.Control
+  className='number-validator'
+  id="totalPrice"
+  placeholder="Enter Price"
+  value={totalPrice}
+  onChange={(e) => {
+    if (isPriceDisabled) {
+      setTotalPrice('');
+    } else {
+      setTotalPrice(e.target.value);
+    }
+  }}
+  disabled={isPriceDisabled}
+/>
+
                 </Form.Group>
               </Form>
               <div className="button-container d-flex justify-content-end mt-2">
