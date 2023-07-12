@@ -37,17 +37,17 @@ export default function Index(){
       };
 
     useEffect(() => {
-            const handlePostBalance = async () => {
-            const requestBudget = {
-                employeeid: employee
-            };
-            await pettyCash.mutateAsync(requestBudget);
-            };
-        
-            if (employee) {
-            handlePostBalance();
-            }
-        }, [employee]);
+        const handlePostBalance = async () => {
+        const requestBudget = {
+            employeeid: employee
+        };
+        await pettyCash.mutateAsync(requestBudget);
+        };
+    
+        if (employee) {
+        handlePostBalance();
+        }
+    }, [employee]);
 
     useEffect(() => {
     const handlePostBudget = async () => {
