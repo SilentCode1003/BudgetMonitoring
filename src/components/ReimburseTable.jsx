@@ -1,11 +1,14 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
+import { formatBudget } from '../repository/helper';
 
 export default function ReimburseTable({ reimburse, handleClearReimburse, handleRemoveReimburse }) {
   const tableRef = useRef(null);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     adjustTableHeight();
+    calculateTotalPrice();
     window.addEventListener('resize', adjustTableHeight);
     return () => {
       window.removeEventListener('resize', adjustTableHeight);
@@ -22,6 +25,19 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
     }
   };
 
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    reimburse.forEach((item) => {
+      totalPrice += parseFloat(item.price);
+    });
+    setTotalPrice(totalPrice);
+  };  
+
+  const handleRemoveAndCalculatePrice = (index) => {
+    handleRemoveReimburse(index);
+    calculateTotalPrice();
+  };
+
   return (
     <>
       <Col className="mt-3">
@@ -31,7 +47,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
               <Card.Title>Reimburse Details</Card.Title>
             </Col>
             <Col className='mt-2 mb-2'>
-              <h5 className='white-text'>Total Price: {}</h5>
+              <h5 className='white-text'>Total Price: {formatBudget(totalPrice)}</h5>
             </Col>
           </Row>
         </div>
@@ -45,6 +61,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
                     <th>Origin</th>
                     <th>Destination</th>
                     <th>Mode of Transportation</th>
+                    <th>Price</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -55,8 +72,9 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
                       <td>{reimburse.origin}</td>
                       <td>{reimburse.destination}</td>
                       <td>{reimburse.modeTransaction}</td>
+                      <td>{reimburse.price}</td>
                       <td>
-                        <Button variant="outline-danger" onClick={() => handleRemoveReimburse(index)}>
+                        <Button variant="outline-danger" onClick={() => handleRemoveAndCalculatePrice(index)}>
                           Remove
                         </Button>
                       </td>

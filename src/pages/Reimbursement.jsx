@@ -54,7 +54,7 @@ const Reimbursement = () => {
 
   useEffect(() => {
     setTotalPrice('');
-  }, [locationDropdownValue, originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);  
+  }, [originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);  
 
   useEffect(() => {
     if (filterTransportationPrice.length > 0 && parseFloat(filterTransportationPrice[0]) > 0) {
@@ -66,7 +66,7 @@ const Reimbursement = () => {
   
   useEffect(() => {
     if (filterTransportationPrice.length > 0) {
-      setTotalPrice(formatBudget(filterTransportationPrice[0]));
+      setTotalPrice(filterTransportationPrice[0]);
     }
   }, [filterTransportationPrice]);
 
@@ -115,6 +115,7 @@ const Reimbursement = () => {
       setModeTransportationDropdownValue,
       setTotalPrice
     );
+    setTotalPrice('');
   };
 
   useEffect(() => {
@@ -201,20 +202,12 @@ const Reimbursement = () => {
               <Form className="justify-content-center mt-2">
                 <Form.Group>
                 <Form.Control
-  className='number-validator'
-  id="totalPrice"
-  placeholder="Enter Price"
-  value={totalPrice}
-  onChange={(e) => {
-    if (isPriceDisabled) {
-      setTotalPrice('');
-    } else {
-      setTotalPrice(e.target.value);
-    }
-  }}
-  disabled={isPriceDisabled}
-/>
-
+                  className='number-validator'
+                  id="totalPrice"
+                  placeholder="Enter Price"
+                  value={totalPrice}
+                  onChange={(e) => setTotalPrice(e.target.value)}
+                />
                 </Form.Group>
               </Form>
               <div className="button-container d-flex justify-content-end mt-2">
