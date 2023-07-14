@@ -14,7 +14,7 @@ import ReimburseBtn from '../components/ReimburseBtn';
 import { UserContext } from '../components/userContext';
 
 const Request = () => {
-  const { userData } = useContext(UserContext);
+  const { userData, updateRequestId } = useContext(UserContext);
   const employee = userData && userData.employeeid;
   const postRequest = usePostRequest();
   const responseData = postRequest?.data?.data || [];
@@ -46,7 +46,8 @@ const Request = () => {
   const renderButtons = (status, requestId) => {  
     const handleReimburse = () => {
       console.log(`Reimburse Request ${requestId}.`);
-      navigate('/Reimbursement');
+      updateRequestId(requestId);
+      navigate('/Reimbursement', { state: { reload: true } });
     };
 
     const handleCancel = () => {
