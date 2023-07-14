@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext} from 'react';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
@@ -8,22 +8,59 @@ import { useGetTransportation } from '../API/request/getTransportation';
 import { usePostDestination } from '../API/submit/postDestination';
 import { usePostTranportationPrice } from '../API/submit/postPriceTranportation';
 import { formatBudget } from '../repository/helper';
+import { UserContext } from '../components/userContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 import DropdownInput from '../components/Dropdown-input';
 import Dropdown from '../components/Dropdown';
 import ReimburseTable from '../components/ReimburseTable';
 import DynamicTable from '../components/DynamicTable';
 import Data from '../MOCK_DATA2.json';
+import Swal from 'sweetalert2';
 
 const Reimbursement = () => {
+  const { requestId } = useContext(UserContext);
   const [locationDropdownValue, setLocationDropdownValue] = useState('');
   const [originDropdownValue, setOriginDropdownValue] = useState('');
   const [destinationDropdownValue, setDestinationDropdownValue] = useState('');
   const [modeTransportationDropdownValue, setModeTransportationDropdownValue] = useState('');
   const [totalPrice, setTotalPrice] = useState('');
-  const [isPriceDisabled, setIsPriceDisabled] = useState(totalPrice !== '' && parseFloat(totalPrice) > 0);
   const [reimburse, setReimburse] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(requestId)
+
+  useEffect(() => {
+    if (requestId == null) {
+      const timer = setTimeout(() => {
+        Swal.fire({
+          title: 'Notice',
+          text: 'Please reimburse a request before entering this page.',
+          icon: 'warning',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/Request');
+          }
+        });
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [requestId, navigate]);
   
+  useEffect(() => {
+    const reloadPage = () => {
+      const hasReloaded = localStorage.getItem('reimbursementReloaded');
+      if (!hasReloaded && location.state?.reload) {
+        localStorage.setItem('reimbursementReloaded', 'true');
+        window.location.reload();
+      } else {
+        localStorage.removeItem('reimbursementReloaded');
+      }
+    };
+
+    reloadPage();
+  }, [location]);
+
   const { mutate, isLoading: isDestinationLoading, isError: isDestinationError, data: destinationData, error: destinationError } = usePostDestination();
 
   const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status'];
@@ -46,7 +83,7 @@ const Reimbursement = () => {
   const filterTransportationPrice = getTransportationPrice.map((item) => item.currentprice);
   //console.log(postTransportationPrice)
   //console.log(getTransportationPrice)
-  console.log(filterTransportationPrice)
+  //console.log(filterTransportationPrice)
 
   useEffect(() => {
     setTotalPrice('');
@@ -54,19 +91,11 @@ const Reimbursement = () => {
 
   useEffect(() => {
     setTotalPrice('');
-  }, [locationDropdownValue, originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);  
-
-  useEffect(() => {
-    if (filterTransportationPrice.length > 0 && parseFloat(filterTransportationPrice[0]) > 0) {
-      setIsPriceDisabled(true);
-    } else {
-      setIsPriceDisabled(false);
-    }
-  }, [filterTransportationPrice, modeTransportationDropdownValue]);
+  }, [originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);  
   
   useEffect(() => {
     if (filterTransportationPrice.length > 0) {
-      setTotalPrice(formatBudget(filterTransportationPrice[0]));
+      setTotalPrice(filterTransportationPrice[0]);
     }
   }, [filterTransportationPrice]);
 
@@ -115,6 +144,7 @@ const Reimbursement = () => {
       setModeTransportationDropdownValue,
       setTotalPrice
     );
+    setTotalPrice('');
   };
 
   useEffect(() => {
@@ -201,20 +231,12 @@ const Reimbursement = () => {
               <Form className="justify-content-center mt-2">
                 <Form.Group>
                 <Form.Control
-  className='number-validator'
-  id="totalPrice"
-  placeholder="Enter Price"
-  value={totalPrice}
-  onChange={(e) => {
-    if (isPriceDisabled) {
-      setTotalPrice('');
-    } else {
-      setTotalPrice(e.target.value);
-    }
-  }}
-  disabled={isPriceDisabled}
-/>
-
+                  className='number-validator'
+                  id="totalPrice"
+                  placeholder="Enter Price"
+                  value={totalPrice}
+                  onChange={(e) => setTotalPrice(e.target.value)}
+                />
                 </Form.Group>
               </Form>
               <div className="button-container d-flex justify-content-end mt-2">
@@ -233,6 +255,9 @@ const Reimbursement = () => {
             <Row>
               <Col className='mt-2 mb-2' >
                 <Card.Title>Location Lists</Card.Title>
+              </Col>
+              <Col className='mt-2 mb-2' >
+                <Card.Title>Request ID: {requestId}</Card.Title>
               </Col>
             </Row>
           </div>
