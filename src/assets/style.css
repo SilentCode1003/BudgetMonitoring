@@ -183,7 +183,7 @@ tr:hover{
 }
 
 .form-control{
-  height: 2.32rem;
+  height: 2.1rem !important;
 }
 
 .btn-border{
@@ -204,6 +204,11 @@ tr:hover{
   margin-right: .2rem;
   color: var(--card-r-bg);
   margin-top: .75rem;
+  white-space: nowrap;
+}
+
+.nowrap{
+  margin-top: 1rem;
   white-space: nowrap;
 }
 
@@ -249,6 +254,10 @@ tr:hover{
 
 .dropdown-menu{
   width: 100%;
+}
+
+.header-menu-requests{
+  width: 6.6rem !important;
 }
 
 .dropdown-btn{
@@ -481,7 +490,55 @@ th, td{
     display: block;
   }
 
+  .form-control::placeholder{
+    font-size: 0.75rem !important;
+  }
+
+  .dynamic{
+    font-size: 1rem;
+  }
+
+  .form-control{
+    height: 28px !important;
+    font-size: 0.75rem !important;
+  }
+
+  .company-logo{
+    margin-top: 2rem;
+    width: 280px;
+    height: 200px;
+  }
+
+  .dropdown-menu{
+    min-width: 5.5rem !important;
+  }
+
 }/*Scroll bar*/
+
+@media (max-width: 375px) {
+  .dropdown-input::placeholder{
+    font-size: 0.75rem !important;
+  }
+
+  .left{
+    left: 0px;
+    width: 305px;
+  }
+
+  .company-logo{
+    margin-top: 2rem;
+    width: 280px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 360px){
+  .left{
+    left: 0px;
+    width: 290px;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 7.5px;
   height: 7.5px;
@@ -499,4 +556,17 @@ th, td{
 
 .location-lists{
   height: 310px;
+}
+
+.checkbox{
+  width: 25px;
+}
+
+.dropdown-header{
+  margin: 0 !important;
+  padding: 5px 0px 5px 5px!important;
+}
+
+.CheckboxTable{
+  color: var(--bg-clr) !important;
 }

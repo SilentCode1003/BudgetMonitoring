@@ -47,7 +47,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
               <Card.Title>Reimburse Details</Card.Title>
             </Col>
             <Col className='mt-2 mb-2'>
-              <h5 className='white-text'>Total Price: {formatBudget(totalPrice)}</h5>
+              <h5 className='white-text dynamic'>Total Price: {formatBudget(totalPrice)}</h5>
             </Col>
           </Row>
         </div>
@@ -66,20 +66,25 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
                   </tr>
                 </thead>
                 <tbody>
-                  {reimburse.map((reimburse, index) => (
-                    <tr key={index}>
-                      <td>{reimburse.location}</td>
-                      <td>{reimburse.origin}</td>
-                      <td>{reimburse.destination}</td>
-                      <td>{reimburse.modeTransaction}</td>
-                      <td>{reimburse.price}</td>
-                      <td>
-                        <Button variant="outline-danger" onClick={() => handleRemoveAndCalculatePrice(index)}>
-                          Remove
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
+                  {reimburse.length === 0? (
+                    <tr>
+                      <td colSpan="6">There's no current request</td>
+                    </tr>):(
+                    reimburse.map((reimburse, index) => (
+                      <tr key={index}>
+                        <td>{reimburse.location}</td>
+                        <td>{reimburse.origin}</td>
+                        <td>{reimburse.destination}</td>
+                        <td>{reimburse.modeTransaction}</td>
+                        <td>{reimburse.price}</td>
+                        <td>
+                          <Button variant="outline-danger" onClick={() => handleRemoveAndCalculatePrice(index)}>
+                            Remove
+                          </Button>
+                        </td>
+                      </tr>
+                  ))
+                )}
                 </tbody>
               </Table>
             </div>

@@ -29,7 +29,7 @@ function Header() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 750));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
     };
   
@@ -79,7 +79,7 @@ function Header() {
               </Nav>
               <Nav className="justify-content-end pe-3">
                 <Nav.Link href="/Index">Home</Nav.Link>
-                <NavDropdown title="Request" id="collasible-nav-dropdown">
+                <NavDropdown title="Request" id="collasible-nav-dropdown header-menu-requests">
                   <NavDropdown.Item href="/Request">Request Details</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/Tester">Request Items</NavDropdown.Item>
@@ -95,15 +95,14 @@ function Header() {
                         </button>
                     </span>
                 </div>
-                <div className="d-flex">
-                  <Nav className='flex-grow-1 user-profile hidden-mobile' href="/Index">{userData && userData.fullname}</Nav>
-                  <NavDropdown title={<img alt="user-profile" src={logo} height={35} className='d-inline-block align-top user-profile-picture user-dropdown'/>} id="user-profile-dropdown">
-                    <NavDropdown.Item href="#settings">Settings</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#logout" onClick={handleLogout}>Logout</NavDropdown.Item>
-                  </NavDropdown>
-                </div>
               </Form>
+              <Nav className="justify-content-end pe-3"> 
+                <NavDropdown title={userData && userData.fullname} id="collasible-nav-dropdown header-menu-requests">
+                  <NavDropdown.Item href="/Request">Settings</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#logout" onClick={handleLogout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
