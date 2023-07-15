@@ -7,6 +7,7 @@ import { usePostBalance } from "../API/submit/postPettyCash";
 import { usePostBudget } from "../API/submit/postTotalRequest";
 import { usePostTotalReimburse } from "../API/submit/postTotalReimburse";
 import { formatBudget } from "../repository/helper";
+import { usePostRequest } from '../API/submit/postRequestBy';
 
 export default function Index(){
     const { userData } = useContext(UserContext);
@@ -24,11 +25,27 @@ export default function Index(){
     const mapReimburse = totalReimburseData.map((item)=> item.total);
     console.log(mapReimburse)
 
+    const postRequest = usePostRequest();
+    const responseData = postRequest?.data?.data || [];   
+
     
     const formattedBalance = totalPettyCash.map((item) => {
         const formattedItem = parseFloat(item.balance).toFixed(2);
         return formattedItem.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       });
+    
+    useEffect(() => {
+        const handlePostRequest = async () => {
+        const requestData = {
+            requestby: employee
+        };
+        await postRequest.mutateAsync(requestData);
+        };
+    
+        if (employee) {
+        handlePostRequest();
+        }
+    }, [employee]);
 
     useEffect(() => {
         const handlePostBalance = async () => {
@@ -75,10 +92,45 @@ export default function Index(){
         { ID: '1002', 'Request Date': '02/06/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something Else', Status: 'Inactive'},
     ];
 
-    const currentMonthBudget = ['ID', 'Request Date', 'Request By', 'Details', 'Status'];
+    const currentMonthBudget = ['Request ID', 'Request By', 'Request Date', 'Budget', 'Details', 'Status'];
     const currentMonthBudgetData = [
         { ID: '1001', 'Request Date': '29/05/2023', 'Request By': 'Ralph Lauren Santos', Details:'Something', Status: 'Active'},
     ];
+
+    const formattedResponseData = responseData.map((item) => {
+        const details = JSON.parse(item.details);
+        let formattedDetails = '';
+        if (details.length <= 2) {
+            formattedDetails = details.map((detail, index) => {
+                const { ticketid, storename, concern, issue } = detail;
+                return (
+                <div key={index}>
+                    {ticketid}, {storename}, {concern}, {issue}
+                </div>
+                );
+            });
+            } else {
+            formattedDetails = details.map((detail, index) => {
+                const { ticketid, storename, concern, issue } = detail;
+                return (
+                <div key={index}> 
+                    {index + 1}. {ticketid}, {storename}, {concern}, {issue}
+                </div>
+                );
+            });
+            }
+            return {
+            'Request ID': item.requestid,
+            'Request By': item.requestby,
+            'Request Date': item.requestdate,
+            Budget: item.budget,
+            Details: formattedDetails,
+            Status: item.status,
+        };
+    });  
+
+    console.log(formattedResponseData)
+
     return(
         <> 
             <Row className="mt-3">
@@ -132,7 +184,7 @@ export default function Index(){
                 </Col>
             </Row>
             <div className="">
-                <DynamicTable title={"Current Month Budget Request"} header={currentMonthBudget} data={currentMonthBudgetData} />
+                <DynamicTable title={"Current Month Budget Request"} header={currentMonthBudget} data={formattedResponseData} />
             </div>
             <div className="">
                 <DynamicTable title={"Current Month Reimburse"} header={currentMonthReimburse} data={currentMonthReimburseData} />
