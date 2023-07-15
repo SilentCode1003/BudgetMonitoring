@@ -10,6 +10,8 @@ import { usePostTranportationPrice } from '../API/submit/postPriceTranportation'
 import { formatBudget } from '../repository/helper';
 import { UserContext } from '../components/userContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { usePostLocationLists } from '../API/submit/postLocationLists';
+import CheckboxTable from '../components/checkBoxTable';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 import DropdownInput from '../components/Dropdown-input';
 import Dropdown from '../components/Dropdown';
@@ -65,6 +67,7 @@ const Reimbursement = () => {
 
   const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status'];
   const tableData = Data;
+  const locationHeader = ['Locations', 'something', 'something'];
 
   const getLocation = useGetLocation()?.data?.data || [];
   const filterLocationNames = getLocation.map((item) => item.locationname);
@@ -81,13 +84,26 @@ const Reimbursement = () => {
   const postTransportationPrice = usePostTranportationPrice();
   const getTransportationPrice = postTransportationPrice?.data?.data || [];
   const filterTransportationPrice = getTransportationPrice.map((item) => item.currentprice);
+  
+  const postLocationList = usePostLocationLists();
+  const getLocationList = postLocationList?.data?.data || [];
+  console.log(getLocationList);
+  
   //console.log(postTransportationPrice)
   //console.log(getTransportationPrice)
   //console.log(filterTransportationPrice)
 
-  useEffect(() => {
-    setTotalPrice('');
-  }, [destinationDropdownValue]);
+  const [checkedRows, setCheckedRows] = useState([]);
+
+  const handleCheckboxChange = (id) => {
+    if (checkedRows.includes(id)) {
+      setCheckedRows((prevCheckedRows) =>
+        prevCheckedRows.filter((rowId) => rowId !== id)
+      );
+    } else {
+      setCheckedRows((prevCheckedRows) => [...prevCheckedRows, id]);
+    }
+  };
 
   useEffect(() => {
     setTotalPrice('');
@@ -129,6 +145,19 @@ const Reimbursement = () => {
     }
   }, [originDropdownValue, destinationDropdownValue, modeTransportationDropdownValue]);
   
+  useEffect(() => {
+    const handlePostLocationList = async () => {
+    const locationLists = {
+        requestid: requestId
+    };
+    await postLocationList.mutateAsync(locationLists);
+    };
+
+    if (requestId) {
+    handlePostLocationList();
+    }
+  }, [requestId]);
+
   const handleAddReimbursementClick = () => {
     handleAddReimbursement(
       locationDropdownValue,
@@ -262,7 +291,11 @@ const Reimbursement = () => {
             </Row>
           </div>
           <Card className='dynamic-card location-lists'>
-
+            <CheckboxTable 
+              data={getLocationList} 
+              checkedRows={checkedRows} 
+              onCheckboxChange={handleCheckboxChange}
+            />
           </Card>
         </Col>
       </Row>

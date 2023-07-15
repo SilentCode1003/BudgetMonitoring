@@ -558,7 +558,15 @@ th, td{
   height: 310px;
 }
 
+.checkbox{
+  width: 25px;
+}
+
 .dropdown-header{
   margin: 0 !important;
   padding: 5px 0px 5px 5px!important;
+}
+
+.CheckboxTable{
+  color: var(--bg-clr) !important;
 }
