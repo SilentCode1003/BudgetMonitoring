@@ -12,6 +12,8 @@ import { useGetIssue } from '../API/request/getIssue';
 import { usePostRequest } from '../API/submit/postRequestBy';
 import ReimburseBtn from '../components/ReimburseBtn';
 import { UserContext } from '../components/userContext';
+import { usePostCancelRequest } from '../API/submit/postCancelRequest';
+import Swal from 'sweetalert2';
 
 const Request = () => {
   const { userData, updateRequestId } = useContext(UserContext);
@@ -23,6 +25,7 @@ const Request = () => {
   const client = useGetClientName()?.data?.data || [];
   const clientStoreName = client.map((item) => item.fullname);
   const issues = useGetIssue()?.data?.data || [];
+  const cancelRequest = usePostCancelRequest();
   const navigate = useNavigate();
 
   //console.log(responseData.map((item) => item.status))
@@ -50,8 +53,45 @@ const Request = () => {
       navigate('/Reimbursement', { state: { reload: true } });
     };
 
-    const handleCancel = () => {
+    const handleCancel = async () => {
       console.log(`Cancel Request ${requestId}.`);
+      const handlePostCancel = async () => {
+        const cancelRequestId = {
+          requestid: requestId
+        };
+        try {
+          const response = await cancelRequest.mutateAsync({
+            requestId
+          });
+          console.log(response.msg)
+          if (response.msg === 'success') {
+            await cancelRequest.mutateAsync(cancelRequestId);
+            Swal.fire({
+              title: 'Success',
+              text: 'Request Cancelled Successful',
+              icon: 'success',
+              confirmButtonText: 'OK',
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: 'Cancel Request Failed',
+              icon: 'error',
+              confirmButtonText: 'OK',
+            });
+          }
+        } catch (error) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Cancel Request Failed',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        }
+      };
+      handlePostCancel();
     };
   
     switch (status) {

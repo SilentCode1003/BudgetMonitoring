@@ -312,6 +312,11 @@ th{
   border-radius: 0.375rem !important;
 }
 
+.Checkbox-container{
+  max-height: 295px;
+  overflow-y: auto;
+}
+
 .table-wrapper thead tr{
  background-color: var(--bms-card-clr) !important;
 }
@@ -569,4 +574,8 @@ th, td{
 
 .CheckboxTable{
   color: var(--bg-clr) !important;
+}
+
+.location-lists{
+  height: 301px;
 }
