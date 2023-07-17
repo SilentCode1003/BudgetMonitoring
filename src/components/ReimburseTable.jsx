@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { formatBudget } from '../repository/helper';
+import CheckboxTable from './checkBoxTable';
 
 export default function ReimburseTable({ reimburse, handleClearReimburse, handleRemoveReimburse }) {
   const tableRef = useRef(null);
@@ -47,7 +48,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
               <Card.Title>Reimburse Details</Card.Title>
             </Col>
             <Col className='mt-2 mb-2'>
-              <h5 className='white-text dynamic'>Total Price: {formatBudget(totalPrice)}</h5>
+              <h5 className='white-text dynamic'>Total Fare: {formatBudget(totalPrice)}</h5>
             </Col>
           </Row>
         </div>
@@ -61,7 +62,7 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
                     <th>Origin</th>
                     <th>Destination</th>
                     <th>Mode of Transportation</th>
-                    <th>Price</th>
+                    <th>Fare</th>
                     <th>Action</th>
                   </tr>
                 </thead>
