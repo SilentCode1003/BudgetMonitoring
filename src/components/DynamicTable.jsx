@@ -4,21 +4,35 @@ import Table from 'react-bootstrap/Table';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Pagination from 'react-bootstrap/Pagination';
+import Button from 'react-bootstrap/Button';
 
 const ITEMS_PER_PAGE = 10;
 
 const DynamicTable = ({ title, header, data, renderButtons }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [reverseOrder, setReverseOrder] = useState(false);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredData = data.filter((row) => {
-    const values = Object.values(row).join(' ').toLowerCase();
-    return values.includes(searchTerm.toLowerCase());
-  });
+  const toggleOrder = () => {
+    setReverseOrder(!reverseOrder);
+  };
+
+  const filteredData = data
+    .filter((row) => {
+      const values = Object.values(row).join(' ').toLowerCase();
+      return values.includes(searchTerm.toLowerCase());
+    })
+    .sort((a, b) => {
+      if (reverseOrder) {
+        return a.date > b.date ? -1 : 1;
+      } else {
+        return a.date > b.date ? 1 : -1;
+      }
+    });
 
   const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
@@ -102,11 +116,14 @@ const DynamicTable = ({ title, header, data, renderButtons }) => {
                 </div>
               </div>
               <div className="pagination-container mt-3 d-flex justify-content-end">
+                <Button variant="outline-danger" className='mr-2' onClick={toggleOrder}>
+                  Toggle Order: {reverseOrder ? 'Oldest' : 'Latest'}
+                </Button>
                 <Pagination>{paginationItems}</Pagination>
               </div>
             </Card.Body>
           </Card>
-        </Col>
+        </Col>  
       </Row>
     </>
   );

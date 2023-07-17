@@ -30,7 +30,7 @@ const Reimbursement = () => {
   const [reimburse, setReimburse] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-  //console.log(requestId)
+  console.log(requestId)
 
   useEffect(() => {
     if (requestId == null) {
