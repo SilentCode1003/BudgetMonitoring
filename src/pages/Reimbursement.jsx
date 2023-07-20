@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext} from 'react';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
+import { handleAddOthers, handleRemoveOthersData, handleClearOthersData } from '../components/OthersFunctions';
+import OthersTable from '../components/othersTable';
 import { useGetLocation } from '../API/request/getLocation';
 import { usePostOrigin } from '../API/submit/postOrigin';
 import { useGetTransportation } from '../API/request/getTransportation';
@@ -26,6 +28,9 @@ const Reimbursement = () => {
   const [originDropdownValue, setOriginDropdownValue] = useState('');
   const [destinationDropdownValue, setDestinationDropdownValue] = useState('');
   const [modeTransportationDropdownValue, setModeTransportationDropdownValue] = useState('');
+  const [typeDropdownValue, setTypeDropdownValue] = useState('');
+  const [typePriceDropdownValue, setTypePriceDropdownValue] = useState('');
+  const [othersData, setOthersData] = useState([]);
   const [totalPrice, setTotalPrice] = useState('');
   const [reimburse, setReimburse] = useState([]);
   const location = useLocation();
@@ -48,7 +53,7 @@ const Reimbursement = () => {
     }
   }, [requestId, navigate]);
   
-  useEffect(() => {
+/*   useEffect(() => {
     const reloadPage = () => {
       const hasReloaded = localStorage.getItem('reimbursementReloaded');
       if (!hasReloaded && location.state?.reload) {
@@ -60,13 +65,14 @@ const Reimbursement = () => {
     };
 
     reloadPage();
-  }, [location]);
+  }, [location]); */
 
   const { mutate, isLoading: isDestinationLoading, isError: isDestinationError, data: destinationData, error: destinationError } = usePostDestination();
 
   const tableHeader = ['ID', 'Date', 'Request ID', 'Request By', 'Request Date', 'Details', 'Status'];
   const tableData = Data;
   const locationtest = [{storename:'Calamba'}, {storename:'Quezon'}, {storename:'Manila'}, {storename:'Cavite'}, {storename:'Laguna'}, {storename:'Batangas'}];
+  const typeData = ['Hotel', 'Inn', 'Cafe']
 
   const getLocation = useGetLocation()?.data?.data || [];
   const filterLocationNames = getLocation.map((item) => item.locationname);
@@ -87,6 +93,8 @@ const Reimbursement = () => {
   
   const postLocationList = usePostLocationLists();
   const getLocationList = postLocationList?.data?.data || [];
+
+  const [showOthersCard, setShowOthersCard] = useState(false);
   //console.log(getLocationList);
 
   //console.log(filterOrigin)
@@ -94,6 +102,14 @@ const Reimbursement = () => {
   //console.log(postTransportationPrice)
   //console.log(getTransportationPrice)
   //console.log(filterTransportationPrice)
+
+  const handleShowOthersCard = () => {
+    setShowOthersCard(true);
+  };
+
+  const handleHideOthersCard = () => {
+    setShowOthersCard(false);
+  };
 
   useEffect(() => {
     setTotalPrice('');
@@ -159,6 +175,27 @@ const Reimbursement = () => {
     handlePostLocationList();
     }
   }, [requestId]);
+
+  const handleAddOthersClick = () => {
+    handleAddOthers(
+      othersData,
+      typeDropdownValue,
+      typePriceDropdownValue,
+      setOthersData,
+      setTypeDropdownValue,
+      setTypePriceDropdownValue
+    );
+  }
+
+  const handleRemoveOthersDataClick = (index) => {
+    console.log('Remove Successful');
+    handleRemoveOthersData(index, othersData, setOthersData);
+  }
+
+  const handleClearOthersDataClick = () => {
+    console.log('Clear Successful');
+    handleClearOthersData(setOthersData);
+  }
 
   const handleAddReimbursementClick = () => {
     handleAddReimbursement(
@@ -261,16 +298,19 @@ const Reimbursement = () => {
               )}
               <Form className="justify-content-center mt-2">
                 <Form.Group>
-                <Form.Control
-                  className='number-validator'
-                  id="totalPrice"
-                  placeholder="Enter Price"
-                  value={totalPrice}
-                  onChange={(e) => setTotalPrice(e.target.value)}
-                />
-                </Form.Group>
+                  <Form.Control
+                    className='number-validator'
+                    id="totalPrice"
+                    placeholder="Enter Price"
+                    value={totalPrice}
+                    onChange={(e) => setTotalPrice(e.target.value)}
+                  />
+                  </Form.Group>
               </Form>
               <div className="button-container d-flex justify-content-end mt-2">
+                <Button variant="outline-danger mr-1" onClick={handleShowOthersCard}>
+                  OTHERS
+                </Button>
                 <Button
                   variant="outline-danger"
                   onClick={handleAddReimbursementClick}
@@ -300,10 +340,70 @@ const Reimbursement = () => {
           </Card>
         </Col>
       </Row>
+
+      {showOthersCard && (
+        <Row>
+          <OthersTable
+            others={othersData}
+            handleClearOthersData={handleClearOthersDataClick}
+            handleRemoveOthersData={handleRemoveOthersDataClick}
+          />
+          <Col md={6} className="mt-2">
+            <div className="dynamic-title-card">
+              <Row>
+                <Col className='mt-1 mb-2' >
+                  <Card.Title>Others</Card.Title>
+                </Col>
+              </Row>
+            </div>
+            <Card className='dynamic-card'>
+              <Card.Body>
+                {filterTransportation.length > 0? (
+                      <Dropdown
+                      options={typeData}
+                      defaultOption="-- Select Type --"
+                      value={typeDropdownValue}
+                      setValue={setTypeDropdownValue}
+                      />
+                  ):(
+                    <button className="btn-primary w-100 dropdown-display mt-2" disabled>
+                      No Origin Available
+                    </button>
+                )}
+                <Form className="justify-content-center mt-2">
+                  <Form.Group>
+                    <Form.Control
+                      className='number-validator'
+                      id="typePriceDropdownValue"
+                      placeholder="Enter Cost"
+                      value={typePriceDropdownValue}
+                      onChange={(e) => setTypePriceDropdownValue(e.target.value)}
+                    />
+                  </Form.Group>
+                </Form>
+              </Card.Body>
+              <div className="button-container d-flex justify-content-end mt-2 mb-2 mr-2">
+                <Button variant="outline-danger mr-1" onClick={handleHideOthersCard}>
+                  Close
+                </Button>
+                <Button
+                  variant="outline-danger"
+                  onClick={handleAddOthersClick}
+                >
+                  ADD
+                </Button>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+        )}
+
       <ReimburseTable
         reimburse={reimburse}
         handleRemoveReimburse={handleRemoveReimburseClick}
         handleClearReimburse={handleClearReimburseClick}
+        othersData={othersData}
+        requestID={requestId}
       />
       <div className='reimbursement-table'>
         <DynamicTable title={"Reimbursement Table"} header={tableHeader} data={tableData} renderButtons={renderButtons} />

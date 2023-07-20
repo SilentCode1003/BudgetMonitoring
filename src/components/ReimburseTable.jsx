@@ -1,31 +1,115 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { formatBudget } from '../repository/helper';
 import { usePostReimburse } from '../API/submit/postReimburse'
+import { UserContext } from './userContext';
 import Swal from 'sweetalert2';
 
-export default function ReimburseTable({ reimburse, handleClearReimburse, handleRemoveReimburse }) {
+export default function ReimburseTable({ reimburse, handleClearReimburse, handleRemoveReimburse, othersData, requestID }) {
   const tableRef = useRef(null);
+  const [overallCost, setOverallCost] = useState(0);
+  const [totalCost, setTotalCost] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const { userData } = useContext(UserContext);
+  const employeeID = (userData && userData.employeeid);
   const postReimburse = usePostReimburse();
-
-  //console.log(reimburse)
+  console.log(othersData)
+  console.log(reimburse)
 
   useEffect(() => {
     adjustTableHeight();
     calculateTotalPrice();
+    calculateTotalCost();
+    calculateOverallTotal();
     window.addEventListener('resize', adjustTableHeight);
     return () => {
       window.removeEventListener('resize', adjustTableHeight);
     };
-  }, [reimburse]);
+  }, [reimburse, othersData, overallCost]);
 
+/*reimbursementby
+  requestid
+  details={
+    transportation{}
+    others{}
+  }
+  totalreimburse 
+*/
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    reimburse.forEach((item) => {
+      totalPrice += parseFloat(item.price);
+    });
+    setTotalPrice(totalPrice);
+  };  
+
+  const calculateTotalCost = () => {
+    let totalCost = 0;
+    othersData.forEach((item) => {
+      totalCost += parseFloat(item.typePrice);
+    });
+    setTotalCost(totalCost);
+  };
+
+  const calculateOverallTotal = () => {
+    let overallCost = 0;
+    overallCost = totalCost + totalPrice
+    setOverallCost(overallCost);
+  };
+
+  console.log('total price: ', totalPrice)
+  console.log('total cost: ', totalCost)
+  console.log('Overall total: ', overallCost)
   const handleSubmitReimburse = async(requestedBy) => {
     if(reimburse.length === 0){
       Swal.fire('Error', 'Cannot submit empty reimbursement!', 'error');
       return;
     }
 
+    const formattedReimburse = reimburse.map((reimbursed) => ({
+      location: reimbursed.location,
+      origin: reimbursed.origin,
+      destination: reimbursed.destination,
+      transportation: reimbursed.modeTransaction,
+    }));
+
+    const others = {
+      transportation:formattedReimburse,
+      others: othersData
+    }
+
+    const reimburseData = {
+      reimburseby: requestedBy,
+      requestid: requestID,
+      details: JSON.stringify(others),
+      totalreimburse: overallCost
+    };
+
+    try {
+      const requestMsg = await postReimburse.mutateAsync(reimburseData);
+      if (requestMsg.msg === 'success') {
+        Swal.fire({
+          title: 'Success',
+          text: 'Reimburse Successfully Submitted.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        })
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: 'Failed to submit the request.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Failed to submit the request.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
    
   }
 
@@ -38,14 +122,6 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
       }
     }
   };
-
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    reimburse.forEach((item) => {
-      totalPrice += parseFloat(item.price);
-    });
-    setTotalPrice(totalPrice);
-  };  
 
   const handleRemoveAndCalculatePrice = (index) => {
     handleRemoveReimburse(index);
@@ -106,8 +182,10 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
               <Button variant="outline-danger mr-2" onClick={handleClearReimburse}>
                 Clear Table
               </Button>{' '}
-              <Button variant="outline-danger">
-                Submit
+              <Button 
+                variant="outline-danger"
+                onClick={() => handleSubmitReimburse(employeeID)}>
+                Submit Reimburse
               </Button>
             </div>
           </Card.Body>

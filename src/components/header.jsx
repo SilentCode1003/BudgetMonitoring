@@ -81,8 +81,8 @@ function Header() {
                 <Nav.Link href="/Index">Home</Nav.Link>
                 <NavDropdown title="Request" id="collasible-nav-dropdown header-menu-requests">
                   <NavDropdown.Item href="/Request">Request Details</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="/Tester">Request Items</NavDropdown.Item>
+{/*                   <NavDropdown.Divider />
+                  <NavDropdown.Item href="/Tester">Request Items</NavDropdown.Item> */}
                 </NavDropdown>
               </Nav>
               
