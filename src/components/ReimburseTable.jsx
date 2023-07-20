@@ -1,11 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import { formatBudget } from '../repository/helper';
-import CheckboxTable from './checkBoxTable';
+import { usePostReimburse } from '../API/submit/postReimburse'
+import Swal from 'sweetalert2';
 
 export default function ReimburseTable({ reimburse, handleClearReimburse, handleRemoveReimburse }) {
   const tableRef = useRef(null);
   const [totalPrice, setTotalPrice] = useState(0);
+  const postReimburse = usePostReimburse();
+
+  //console.log(reimburse)
 
   useEffect(() => {
     adjustTableHeight();
@@ -15,6 +19,15 @@ export default function ReimburseTable({ reimburse, handleClearReimburse, handle
       window.removeEventListener('resize', adjustTableHeight);
     };
   }, [reimburse]);
+
+  const handleSubmitReimburse = async(requestedBy) => {
+    if(reimburse.length === 0){
+      Swal.fire('Error', 'Cannot submit empty reimbursement!', 'error');
+      return;
+    }
+
+   
+  }
 
   const adjustTableHeight = () => {
     if (tableRef.current) {

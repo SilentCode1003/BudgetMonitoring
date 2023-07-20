@@ -8,7 +8,6 @@ import Swal from 'sweetalert2';
 export default function RequestTable({ requests, handleRemoveRequest, handleClearRequests, budget, setBudget }) {
   const tableRef = useRef(null);
   const postRequest = usePostRequest();
-  const postRequestMsg = postRequest.map
   const { userData } = useContext(UserContext);
   const employeeID = (userData && userData.employeeid);
   const [totalPrice, setTotalPrice] = useState(0);

@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
-import { ticketAPI } from '../axios'
+import { budgetAPI } from '../axios'
 
 export const getLocation = async () => {
-  const res = await ticketAPI.get('/location/load')
+  const res = await budgetAPI.get('/location/load')
   return res.data
 }
 

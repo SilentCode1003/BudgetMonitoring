@@ -29,6 +29,7 @@ const CheckboxTable = ({ data, reimburseDestination }) => {
                     <input
                       className='checkbox'
                       type="checkbox"
+                      readOnly
                       checked={destinations.includes(row.storename)}
                     />
                   </div>

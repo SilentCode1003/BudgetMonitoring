@@ -3,7 +3,7 @@ import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import { validateNumberInput } from '../components/RequestFunctions';
 import { handleAddReimbursement, handleRemoveReimburse, handleClearReimburse } from '../components/ReimbursementFunctions';
 import { useGetLocation } from '../API/request/getLocation';
-import { useGetOrigin } from '../API/request/getOrigin';
+import { usePostOrigin } from '../API/submit/postOrigin';
 import { useGetTransportation } from '../API/request/getTransportation';
 import { usePostDestination } from '../API/submit/postDestination';
 import { usePostTranportationPrice } from '../API/submit/postPriceTranportation';
@@ -30,8 +30,7 @@ const Reimbursement = () => {
   const [reimburse, setReimburse] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(requestId)
-
+  //console.log(requestId)
   useEffect(() => {
     if (requestId == null) {
       const timer = setTimeout(() => {
@@ -72,8 +71,9 @@ const Reimbursement = () => {
   const getLocation = useGetLocation()?.data?.data || [];
   const filterLocationNames = getLocation.map((item) => item.locationname);
 
-  const getOrigin = useGetOrigin()?.data?.data || [];
-  const filterOrigin = getOrigin.map((item) => item.origin);
+  const getOrigin = usePostOrigin();
+  const originData = getOrigin?.data?.data || []
+  const filterOrigin = originData.map((item) => item.origin);
 
   const filterDestination = destinationData?.data || [];
   const destination = filterDestination.map((item) => item.destination);
@@ -87,7 +87,9 @@ const Reimbursement = () => {
   
   const postLocationList = usePostLocationLists();
   const getLocationList = postLocationList?.data?.data || [];
-  console.log(getLocationList);
+  //console.log(getLocationList);
+
+  //console.log(filterOrigin)
 
   //console.log(postTransportationPrice)
   //console.log(getTransportationPrice)
@@ -104,12 +106,24 @@ const Reimbursement = () => {
   }, [filterTransportationPrice]);
 
   useEffect(() => {
+    const handlePostOrigin = async () => {
+      const originPayload = {
+        location: locationDropdownValue,
+      };
+      await getOrigin.mutateAsync(originPayload);
+    };
+
+    if (locationDropdownValue) {
+      handlePostOrigin();
+    }
+  }, [locationDropdownValue]);
+
+  useEffect(() => {
     const handlePostDestination = async () => {
       const origin = {
         origin: originDropdownValue,
       };
       await mutate(origin);
-      setDestinationDropdownValue(''); 
     };
 
     if (originDropdownValue) {
