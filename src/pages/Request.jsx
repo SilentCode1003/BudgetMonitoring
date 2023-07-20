@@ -109,15 +109,15 @@ const Request = () => {
         );
       case 'CHECKING':
         return (
-          <i>Checking</i>
+          <i>- - -</i>
         );
       case 'REIMBURSED':
         return(
-          <i>Request Reimbursed</i>
+          <i>- - -</i>
         )
       case 'DONE':
         return(
-          <i>Request Done</i>
+          <i>- - -</i>
         )
       default:
         return null;

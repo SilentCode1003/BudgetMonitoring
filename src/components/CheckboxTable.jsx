@@ -8,9 +8,9 @@ const CheckboxTable = ({ data, reimburseDestination }) => {
 
   const columns = Object.keys(data[0]);
   const destinations = reimburseDestination.map(item => item.destination);
-  console.log(destinations);
+  /* console.log(destinations);
   console.log(data);
-
+ */
   return (
     <>
       <div className="Checkbox-container">

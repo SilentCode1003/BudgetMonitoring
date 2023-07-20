@@ -4,7 +4,7 @@ import { budgetAPI } from '../axios'
 
 export const postReimburseData = async (reimburseData) => {
   const res = await budgetAPI.post('/reimbursement/save', reimburseData)
-  console.log(res.data.msg);
+  console.log('Payload:', reimburseData)
   return res.data
 }
 
