@@ -57,7 +57,7 @@ const DropdownInput = ({ options, defaultOption, value, setValue }) => {
       />
       {isOpen && (
         <div className={`dropdown-menu show ${shouldScroll ? 'scrollable' : ''}`}>
-          {isMatchedData ? (
+
             <div className="dropdown-options">
               {filteredOptions.map((option, index) => (
                 <button
@@ -70,9 +70,7 @@ const DropdownInput = ({ options, defaultOption, value, setValue }) => {
                 </button>
               ))}
             </div>
-          ) : (
-            <div className="text-center">No matched data</div>
-          )}
+   
         </div>
       )}
     </div>
