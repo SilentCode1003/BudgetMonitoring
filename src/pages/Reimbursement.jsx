@@ -21,7 +21,7 @@ import { formatBudget } from "../repository/helper";
 import { UserContext } from "../components/userContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { usePostLocationLists } from "../API/submit/postLocationLists";
-import CheckboxTable from "../components/checkBoxTable";
+import CheckboxTable from "../components/CheckboxTable";
 import ReimburseEditBtn from "../components/ReimburseEditBtn";
 import DropdownInput from "../components/Dropdown-input";
 import Dropdown from "../components/dropdown";
