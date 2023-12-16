@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { usePostDestination } from '../API/submit/postDestination';
 import { useGetOrigin } from '../API/request/getOrigin';
-import Dropdown from '../components/Dropdown';
+import Dropdown from '../components/dropdown';
 import DropdownInput from '../components/Dropdown-input';
 
 function DestinationForm() {
