@@ -1,10 +1,10 @@
-import { Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 const ReimburseBtn = () => {
-    return(    
-        <Button variant="outline-danger" href="/Reimbursement">
-            Reimburse
-        </Button>
-    )
-}
+  return (
+    <Button variant="outline-danger" href="/Reimbursement">
+      Reimburse
+    </Button>
+  );
+};
 export default ReimburseBtn;

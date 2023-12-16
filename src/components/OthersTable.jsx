@@ -1,17 +1,21 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Row, Col, Card, Table, Button } from 'react-bootstrap';
-import { formatBudget } from '../repository/helper';
+import React, { useRef, useEffect, useState } from "react";
+import { Row, Col, Card, Table, Button } from "react-bootstrap";
+import { formatBudget } from "../repository/helper";
 
-export default function OthersTable({ others, handleClearOthersData, handleRemoveOthersData }) {
+export default function OthersTable({
+  others,
+  handleClearOthersData,
+  handleRemoveOthersData,
+}) {
   const tableRef = useRef(null);
   const [totalCost, setTotalCost] = useState(0);
 
   useEffect(() => {
     adjustTableHeight();
     calculateTotalCost();
-    window.addEventListener('resize', adjustTableHeight);
+    window.addEventListener("resize", adjustTableHeight);
     return () => {
-      window.removeEventListener('resize', adjustTableHeight);
+      window.removeEventListener("resize", adjustTableHeight);
     };
   }, [others]);
 
@@ -25,9 +29,9 @@ export default function OthersTable({ others, handleClearOthersData, handleRemov
 
   const adjustTableHeight = () => {
     if (tableRef.current) {
-      const tableBody = tableRef.current.querySelector('tbody');
+      const tableBody = tableRef.current.querySelector("tbody");
       if (tableBody) {
-        const maxHeight = others.length > 4 ? '400px' : 'auto';
+        const maxHeight = others.length > 4 ? "400px" : "auto";
         tableBody.style.maxHeight = maxHeight;
       }
     }
@@ -47,7 +51,9 @@ export default function OthersTable({ others, handleClearOthersData, handleRemov
               <Card.Title>Others Details</Card.Title>
             </Col>
             <Col className="mt-2 mb-2">
-              <h5 className="white-text dynamic">Total Fare: {formatBudget(totalCost)}</h5>
+              <h5 className="white-text dynamic">
+                Total Fare: {formatBudget(totalCost)}
+              </h5>
             </Col>
           </Row>
         </div>
@@ -73,7 +79,10 @@ export default function OthersTable({ others, handleClearOthersData, handleRemov
                         <td>{other.type}</td>
                         <td>{other.typePrice}</td>
                         <td>
-                          <Button variant="outline-danger" onClick={() => handleRemoveAndCalculateCost(index)}>
+                          <Button
+                            variant="outline-danger"
+                            onClick={() => handleRemoveAndCalculateCost(index)}
+                          >
                             Remove
                           </Button>
                         </td>
@@ -84,9 +93,12 @@ export default function OthersTable({ others, handleClearOthersData, handleRemov
               </Table>
             </div>
             <div className="button-container d-flex justify-content-end mt-2">
-              <Button variant="outline-danger mr-2" onClick={handleClearOthersData}>
+              <Button
+                variant="outline-danger mr-2"
+                onClick={handleClearOthersData}
+              >
                 Clear Table
-              </Button>{' '}
+              </Button>{" "}
             </div>
           </Card.Body>
         </Card>
