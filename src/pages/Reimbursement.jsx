@@ -11,7 +11,7 @@ import {
   handleRemoveOthersData,
   handleClearOthersData,
 } from "../components/OthersFunctions";
-import OthersTable from "../components/otherstable";
+import OthersTable from "../components/OthersTable";
 import { useGetLocation } from "../API/request/getLocation";
 import { usePostOrigin } from "../API/submit/postOrigin";
 import { useGetTransportation } from "../API/request/getTransportation";
