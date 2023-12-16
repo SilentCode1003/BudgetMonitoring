@@ -16,7 +16,7 @@ import { usePostLocationLists } from '../API/submit/postLocationLists';
 import CheckboxTable from '../components/checkBoxTable';
 import ReimburseEditBtn from '../components/ReimburseEditBtn';
 import DropdownInput from '../components/Dropdown-input';
-import Dropdown from '../components/Dropdown';
+import Dropdown from '../components/dropdown';
 import ReimburseTable from '../components/ReimburseTable';
 import DynamicTable from '../components/DynamicTable';
 import Data from '../MOCK_DATA2.json';
