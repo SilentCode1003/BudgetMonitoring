@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from './Header';
+import Header from './header';
 import { Container, Card, Row, Col, Form, Button } from 'react-bootstrap';
 import Dropdown from './Dropdown';
 import RequestTable from './Request-table';
