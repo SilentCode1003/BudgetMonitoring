@@ -57,7 +57,7 @@ export const handleAddReimbursement = (
 
   setReimburse([...reimburse, newReimburse]);
 
-  setLocationDropdownValue('');
+  // setLocationDropdownValue('');
   setOriginDropdownValue('');
   setDestinationDropdownValue('');
   setModeTransportationDropdownValue('');

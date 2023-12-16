@@ -53,7 +53,7 @@ const Reimbursement = () => {
     }
   }, [requestId, navigate]);
   
-/*   useEffect(() => {
+  useEffect(() => {
     const reloadPage = () => {
       const hasReloaded = localStorage.getItem('reimbursementReloaded');
       if (!hasReloaded && location.state?.reload) {
@@ -65,7 +65,7 @@ const Reimbursement = () => {
     };
 
     reloadPage();
-  }, [location]); */
+  }, [location]);
 
   const { mutate, isLoading: isDestinationLoading, isError: isDestinationError, data: destinationData, error: destinationError } = usePostDestination();
 
@@ -359,7 +359,7 @@ const Reimbursement = () => {
             <Card className='dynamic-card'>
               <Card.Body>
                 {filterTransportation.length > 0? (
-                      <Dropdown
+                      <DropdownInput
                       options={typeData}
                       defaultOption="-- Select Type --"
                       value={typeDropdownValue}
